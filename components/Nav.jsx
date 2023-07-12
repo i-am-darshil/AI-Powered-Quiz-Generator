@@ -10,32 +10,37 @@ const Nav = () => {
       {/* Flex container */}
       <div className="flex items-center justify-between">
         {/* Log */}
-        <div className="pt-2">
+        <div className="pt-2 flex items-center justify-between">
           <img className="h-12" src="images/logo.svg" alt="" />
+          <span className="black text-center ml-6 font-light hidden text-4xl lg:block">
+            Quizopia
+          </span>
         </div>
 
-        {/* Menu Items */}
-        <div className="hidden space-x-6 md:flex">
-          <a href="#" className="hover:text-darkGrayishBlue">
-            Create
-          </a>
-          <a href="#" className="hover:text-darkGrayishBlue">
-            Join
-          </a>
-          <a href="#" className="hover:text-darkGrayishBlue">
-            Pricing
-          </a>
-          <a href="#" className="hover:text-darkGrayishBlue">
-            About Us
+        <div className="flex flex-row justify-center items-center">
+          {/* Menu Items */}
+          <div className="hidden space-x-6 md:flex">
+            <a href="#" className="hover:text-darkGrayishBlue">
+              Create
+            </a>
+            <a href="#" className="hover:text-darkGrayishBlue">
+              Join
+            </a>
+            <a href="#" className="hover:text-darkGrayishBlue">
+              Pricing
+            </a>
+            <a href="#" className="hover:text-darkGrayishBlue">
+              About Us
+            </a>
+          </div>
+
+          <a
+            href="#"
+            className="p-1 px-2 ml-6 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
+          >
+            Get Started
           </a>
         </div>
-
-        <a
-          href="#"
-          className="p-1 px-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
-        >
-          Get Started
-        </a>
 
         {/* Hamburger
         <div>

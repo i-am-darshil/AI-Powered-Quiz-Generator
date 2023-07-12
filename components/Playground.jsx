@@ -4,13 +4,13 @@ const Playground = () => {
       <div className="container flex w-full flex-col items-center px-6 mx-auto mt-20 space-y-0 lg:flex-row lg:items-start">
         {/* Left Input Text Box */}
         <div className="mb-12 space-y-3 w-full lg:w-1/2 lg:mr-12 flex flex-col items-center">
-          <h1 for="quiz-text" className="max-w-lg font-light text-center">
+          <h1 className="max-w-lg font-light text-center">
             Enter the text you wish to generate the quiz
           </h1>
           <textarea
             id="quiz-text"
             rows="18"
-            class="block p-2.5 w-full text-sm text-gray-900 black rounded-lg border border-brightRedLight"
+            className="block p-2.5 w-full text-sm text-gray-900 black rounded-lg border border-brightRedLight"
             placeholder="Artificial intelligence (AI) is the technological wizardry that brings science fiction to life. Imagine a world where machines not only crunch numbers but also possess the ability to learn, reason, and even exhibit creativity. From autonomous cars navigating busy city streets to chatbots engaging in human-like conversations, AI is transforming our reality. This cutting-edge field encompasses mind-boggling technologies like machine learning, where computers teach themselves from vast amounts of data, and computer vision, enabling machines to see and understand the world around them. Whether it's the breathtaking capabilities of AI-powered robots or the mind-bending applications in healthcare, finance, and gaming, the potential of AI seems limitless. However, with great power comes great responsibility. Ensuring that AI remains unbiased, transparent, and aligned with human values is crucial to prevent unintended consequences. As AI continues to push the boundaries of what's possible, we find ourselves on the precipice of an awe-inspiring future where human ingenuity and machine intelligence coexist in an unprecedented dance of progress and innovation."
           ></textarea>
 
