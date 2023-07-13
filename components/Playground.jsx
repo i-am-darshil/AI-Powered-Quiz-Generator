@@ -1,7 +1,10 @@
 const Playground = () => {
   return (
     <section>
-      <div className="container flex w-full flex-col items-center px-6 mx-auto mt-20 space-y-0 lg:flex-row lg:items-start">
+      <h1 className="text-center mt-8 text-3xl font-thin md:text-4xl md:mt-16">
+        - LET'S TRY IT OUT -
+      </h1>
+      <div className="container flex w-full flex-col items-center px-6 mx-auto mt-4 space-y-0 lg:flex-row lg:items-start lg:mt-8">
         {/* Left Input Text Box */}
         <div className="mb-12 space-y-3 w-full lg:w-1/2 lg:mr-12 flex flex-col items-center">
           <h1 className="max-w-lg font-light text-center">
