@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Nav = () => {
-  const isUserLoggedIn = false;
+  const { data: session } = useSession();
+
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
     (async () => {
       const res = await getProviders();
+      console.log("use effect");
       setProviders(res);
     })();
   }, []);
@@ -22,30 +24,43 @@ const Nav = () => {
       {/* Flex container */}
       <div className="flex items-center justify-between">
         {/* Log */}
-        <div className="pt-2 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Image width={37} height={37} src="images/logo.svg" alt="" />
           <span className="black text-center ml-3 font-light text-2xl lg:block lg:text-4xl lg:ml-6">
             Quizopia
           </span>
         </div>
 
-        <div className="flex-row justify-center items-center hidden md:flex">
+        <div className="flex-row justify-center items-center text-black font-light hidden md:flex">
           {/* Desktop view */}
-
           {/* If Logged in */}
-          {isUserLoggedIn ? (
-            <div className="hidden space-x-6 md:flex">
+          {session?.user ? (
+            <div className="hidden justify-center items-center space-x-6 md:flex">
               <Link href="#" className="hover:text-darkGrayishBlue">
                 Create A Quiz
               </Link>
               <Link href="#" className="hover:text-darkGrayishBlue">
                 Join A Quiz
               </Link>
-              <Link
-                href="#"
-                className="px-3 ml-6 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
+              <button
+                type="button"
+                className="hover:text-darkGrayishBlue"
+                onClick={signOut}
               >
                 Log Out
+              </button>
+              <Link href="#">
+                <Image
+                  width={37}
+                  height={37}
+                  src={session?.user.image}
+                  alt=""
+                  className="rounded-full"
+                  alt="profile"
+                  onClick={() => {
+                    setToggleDropdown((prev) => !prev);
+                  }}
+                />
               </Link>
             </div>
           ) : (
@@ -58,29 +73,31 @@ const Nav = () => {
               </Link>
               {providers &&
                 Object.values(providers).map((provider) => {
-                  <button
-                    type="button"
-                    key={provider.name}
-                    onClick={() => {
-                      signIn(provider.id);
-                    }}
-                    className="px-3 ml-6 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
-                  >
-                    Sign in
-                  </button>;
+                  return (
+                    <button
+                      type="button"
+                      key={provider.name}
+                      onClick={() => {
+                        signIn(provider.id);
+                      }}
+                      className="px-3 ml-6 text-black font-light bg-brightRedLight rounded-full baseline hover:bg-brightRed md:block"
+                    >
+                      Sign in
+                    </button>
+                  );
                 })}
             </div>
           )}
         </div>
 
         {/* Mobile view */}
-        <div className="flex relative md:hidden">
-          {isUserLoggedIn ? (
+        <div className="flex relative items-center justify-center font-light md:hidden">
+          {session?.user ? (
             <div className="flex">
               <Image
                 width={37}
                 height={37}
-                src="images/logo.svg"
+                src={session?.user.image}
                 alt=""
                 className="rounded-full"
                 alt="profile"
@@ -128,16 +145,18 @@ const Nav = () => {
           ) : (
             providers &&
             Object.values(providers).map((provider) => {
-              <button
-                type="button"
-                key={provider.name}
-                onClick={() => {
-                  signIn(provider.id);
-                }}
-                className="px-3 ml-6 text-white bg-black rounded-full baseline hover:bg-brightRedLight md:block"
-              >
-                Sign in
-              </button>;
+              return (
+                <button
+                  type="button"
+                  key={provider.name}
+                  onClick={() => {
+                    signIn(provider.id);
+                  }}
+                  className="px-3 ml-6 text-black font-light bg-brightRedLight rounded-full baseline hover:bg-brightRed md:block"
+                >
+                  Sign in
+                </button>
+              );
             })
           )}
         </div>
