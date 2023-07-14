@@ -80,7 +80,7 @@ const Nav = () => {
                       onClick={() => {
                         signIn(provider.id);
                       }}
-                      className="px-3 ml-6 text-black font-light bg-brightRedLight rounded-full baseline hover:bg-brightRed md:block"
+                      className="px-3 ml-6 text-white font-light bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
                     >
                       Sign in
                     </button>
@@ -152,7 +152,7 @@ const Nav = () => {
                   onClick={() => {
                     signIn(provider.id);
                   }}
-                  className="px-3 ml-6 text-black font-light bg-brightRedLight rounded-full baseline hover:bg-brightRed md:block"
+                  className="px-3 ml-6 text-white font-light bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
                 >
                   Sign in
                 </button>
