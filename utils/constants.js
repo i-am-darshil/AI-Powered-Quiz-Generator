@@ -136,12 +136,9 @@ let initialQuestionSetForFillInTheBlanks = [
 
 const difficultyPrompt = {};
 
-difficultyPrompt[EASY_DIFFICULTY] =
-  "Set mode of difficulty to ###difficultyMode###";
-difficultyPrompt[MEDIUM_DIFFICULTY] =
-  "Set mode of difficulty to ###difficultyMode###";
-difficultyPrompt[HARD_DIFFICULTY] =
-  "Set mode of difficulty to ###difficultyMode###";
+difficultyPrompt[EASY_DIFFICULTY] = "Set mode of difficulty to easy";
+difficultyPrompt[MEDIUM_DIFFICULTY] = "Set mode of difficulty to medium";
+difficultyPrompt[HARD_DIFFICULTY] = "Set mode of difficulty to hard";
 difficultyPrompt[MIXBAG_DIFFICULTY] =
   "It's essential to strike a balance in question difficulty to provide a fair and effective assessment. Too many difficult questions can frustrate participants, while too many easy questions may not effectively measure their knowledge and skills";
 
@@ -150,36 +147,50 @@ const questionTypeMapping = {};
 questionTypeMapping[MCQ_TYPE] = {
   type: "Multiple Choice Question",
   initialQuestionSet: initialQuestionSetForMCQ,
-  shape: initialQuestionSetForMCQ[1],
-  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with answers. Include wrong answers. Define difficulty by "Distractors", "Ambiguity and Misleading Choices", "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt###. Generate the quiz in ###language### language.\nFormat the response as JSON in the shape of: ${JSON.stringify(
-    initialQuestionSetForMCQ[1]
+  shape: [initialQuestionSetForMCQ[0], initialQuestionSetForMCQ[1]],
+  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with answers. Include wrong answers. Define difficulty by "Distractors", "Ambiguity and Misleading Choices", "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt### . Generate the quiz in ###language### language.\nFormat the response as JSON as array of response in the shape of: ${JSON.stringify(
+    {
+      response: [initialQuestionSetForMCQ[0]],
+    }
   )}
 `,
 };
 questionTypeMapping[BOOLEAN_TYPE] = {
   type: "True or False",
   initialQuestionSet: initialQuestionSetForTrueFalse,
-  shape: initialQuestionSetForTrueFalse[1],
-  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with answers. Include mix of True and False answers. Define difficulty by "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt###. Generate the quiz in ###language### language. \nFormat the response as JSON in the shape of: ${JSON.stringify(
-    initialQuestionSetForTrueFalse[1]
+  shape: [initialQuestionSetForTrueFalse[0], initialQuestionSetForTrueFalse[1]],
+  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with answers. Include mix of True and False answers. Define difficulty by "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt### . Generate the quiz in ###language### language. \nFormat the response as JSON as array of response in the shape of: ${JSON.stringify(
+    {
+      response: [initialQuestionSetForTrueFalse[0]],
+    }
   )}
 `,
 };
 questionTypeMapping[SHORT_ANSWER_TYPE] = {
   type: "Short Answer",
   initialQuestionSet: initialQuestionSetForShortAnswer,
-  shape: initialQuestionSetForShortAnswer[1],
-  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with descriptive answers. Define difficulty by "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt###. Generate the quiz in ###language### language. \nFormat the response as JSON in the shape of: ${JSON.stringify(
-    initialQuestionSetForShortAnswer[1]
+  shape: [
+    initialQuestionSetForShortAnswer[0],
+    initialQuestionSetForShortAnswer[1],
+  ],
+  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with descriptive answers. Define difficulty by "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt### . Generate the quiz in ###language### language. \nFormat the response as JSON as array of response in the shape of: ${JSON.stringify(
+    {
+      response: [initialQuestionSetForShortAnswer[0]],
+    }
   )}
 `,
 };
 questionTypeMapping[FILL_IN_THE_BLANKS_TYPE] = {
   type: "Fill in the blanks",
   initialQuestionSet: initialQuestionSetForFillInTheBlanks,
-  shape: initialQuestionSetForFillInTheBlanks[1],
-  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with answers. Define difficulty by "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt###. Generate the quiz in ###language### language. \nFormat the response as JSON in the shape of: ${JSON.stringify(
-    initialQuestionSetForShortAnswer[1]
+  shape: [
+    initialQuestionSetForFillInTheBlanks[0],
+    initialQuestionSetForFillInTheBlanks[1],
+  ],
+  promptForTopic: `Generate ###numberOfQuestions### ###questionType### questions for ###topic### with answers. Define difficulty by "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt### . Generate the quiz in ###language### language. \nFormat the response as JSON as array of response in the shape of: ${JSON.stringify(
+    {
+      response: [initialQuestionSetForFillInTheBlanks[0]],
+    }
   )}
 `,
 };

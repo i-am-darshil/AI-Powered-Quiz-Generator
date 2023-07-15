@@ -29,7 +29,7 @@ export const POST = async (request) => {
     constants.questionTypeMapping[requestData.quizOptions.questionType]
       .initialQuestionSet;
 
-  const mockTopic = "Artificial Intelligence";
+  const mockTopic = "Harry Potter";
   // ---- END OF MOCKING GPT CALLS ----
 
   prompt = prompt.replace("###numberOfQuestions###", numberOfQuestions);
@@ -48,16 +48,38 @@ export const POST = async (request) => {
 
   console.log("messageToGPT", messageToGPT);
 
-  // const completion = await openai.createChatCompletion({
-  //   model: "gpt-3.5-turbo",
-  //   messages: [messageToGPT],
-  // });
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [messageToGPT],
+  });
 
-  // const questions = JSON.parse(completion.data.choices[0].message.content);
+  console.log("completion", completion.data.choices[0].message);
+
+  // ToDo : Add a try catch block. In case of exception, send question specifying "Something went wrong"
+
+  const questions = JSON.parse(
+    completion.data.choices[0].message.content
+  ).response;
+
+  console.log("completion json parse", questions);
+
+  // A sample response
+  // {
+  //   response: [
+  //     {
+  //       question: 'In Harry Potter, the beloved owl that delivers mail to Harry is named _____________.',
+  //       answer: 'Hedwig'
+  //     },
+  //     {
+  //       question: 'The Hogwarts School of Witchcraft and Wizardry is located in ____________.',
+  //       answer: 'Scotland'
+  //     }
+  //   ]
+  // }
 
   const response = {
     questionType: questionType,
-    questions: util.shuffleArray(mockQuestions),
+    questions: util.shuffleArray(questions),
   };
 
   return new Response(JSON.stringify(response), { status: 200 });
