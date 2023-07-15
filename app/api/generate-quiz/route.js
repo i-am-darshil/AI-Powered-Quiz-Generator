@@ -17,13 +17,33 @@ export const POST = async (request) => {
   let shape =
     constants.questionTypeMapping[requestData.quizOptions.questionType].shape;
   let numberOfQuestions = requestData.quizOptions.numberOfQuestions;
+  let difficultyMode = requestData.quizOptions.difficulty;
+  let language = requestData.quizOptions.language;
+
+  let prompt =
+    constants.questionTypeMapping[requestData.quizOptions.questionType]
+      .promptForTopic;
+
+  // ---- START OF MOCKING GPT CALLS ----
+  const mockQuestions =
+    constants.questionTypeMapping[requestData.quizOptions.questionType]
+      .initialQuestionSet;
+
+  const mockTopic = "Artificial Intelligence";
+  // ---- END OF MOCKING GPT CALLS ----
+
+  prompt = prompt.replace("###numberOfQuestions###", numberOfQuestions);
+  prompt = prompt.replace("###questionType###", questionType);
+  prompt = prompt.replace("###topic###", mockTopic);
+  prompt = prompt.replace("###language###", language);
+  prompt = prompt.replace(
+    "###difficultyPrompt###",
+    constants.difficultyPrompt[difficultyMode]
+  );
 
   let messageToGPT = {
     role: "user",
-    content: `generate ${numberOfQuestions} "${questionType}" questions for "Harry Potter" with answers. include wrong answers\nformat the response as JSON in the shape of: ${JSON.stringify(
-      shape
-    )}
-  `,
+    content: prompt,
   };
 
   console.log("messageToGPT", messageToGPT);
@@ -35,11 +55,9 @@ export const POST = async (request) => {
 
   // const questions = JSON.parse(completion.data.choices[0].message.content);
 
-  const questions = constants.questionTypeMapping.mcq.initialQuestionSet;
-
   const response = {
-    questionType: requestData.quizOptions.questionType,
-    questions: util.shuffleArray(questions),
+    questionType: questionType,
+    questions: util.shuffleArray(mockQuestions),
   };
 
   return new Response(JSON.stringify(response), { status: 200 });

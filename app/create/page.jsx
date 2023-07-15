@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
-import QuestionCard from "@components/QuestionCard";
+import QuestionCard from "@components/QuestionCards/QuestionCard";
 import QuizOptions from "@components/QuizOptions";
 import constants from "@utils/constants";
+import util from "@utils/util";
 
 const page = () => {
   const [submitting, setIsSubmitting] = useState(false);
@@ -13,9 +14,10 @@ const page = () => {
     type: "text",
     value: "",
   });
-  const [quizQuestions, setquizQuestions] = useState(
-    constants.questionTypeMapping.mcq.initialQuestionSet
-  );
+  const [quizQuestionConfig, setquizQuestionConfig] = useState({
+    questionType: constants.questionTypeMapping.mcq.type,
+    questions: constants.questionTypeMapping.mcq.initialQuestionSet,
+  });
 
   const { data: session } = useSession();
   const sessionUser = session?.user;
@@ -28,24 +30,26 @@ const page = () => {
     console.log(
       `Submitting Request to get quiz of input type ${quizInput.type} and value ${quizInput.value}}`
     );
-    const formJson = Object.fromEntries(formData.entries());
-    if (!formJson.numberOfQuestions)
-      formJson["numberOfQuestions"] = quizQuestions.length.toString();
+    const formOptionEntries = Object.fromEntries(formData.entries());
+    if (!formOptionEntries.numberOfQuestions)
+      formOptionEntries["numberOfQuestions"] =
+        quizQuestionConfig.questions.length.toString();
 
-    console.log("formJson", formJson);
+    console.log("formOptionEntries", formOptionEntries);
 
     try {
       const response = await fetch("/api/generate-quiz", {
         method: "POST",
         body: JSON.stringify({
           quizInput: quizInput,
-          quizOptions: formJson,
+          quizOptions: formOptionEntries,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(`Recieved response from server : ${JSON.stringify(data)}`);
+        setquizQuestionConfig(data);
       }
     } catch (error) {
       console.error(error);
@@ -64,6 +68,7 @@ const page = () => {
             sessionUser={sessionUser}
             quizInput={quizInput}
             setQuizInput={setQuizInput}
+            setquizQuestionConfig={setquizQuestionConfig}
             submitting={submitting}
             handleSubmit={getQuizGuestions}
           />
@@ -133,11 +138,12 @@ const page = () => {
         {/* Right box with Questions */}
         <div className="w-full mb-12 space-y-3 px-4 flex flex-col items-start justify-start lg:w-2/5 lg:overflow-auto lg:h-screen">
           {/* Question List */}
-          {quizQuestions.map((obj, i) => {
+          {quizQuestionConfig.questions.map((question, i) => {
             return (
               <QuestionCard
                 key={i}
-                data={obj}
+                question={question}
+                questionType={quizQuestionConfig.questionType}
                 questionNumber={i}
                 submitting={submitting}
               />

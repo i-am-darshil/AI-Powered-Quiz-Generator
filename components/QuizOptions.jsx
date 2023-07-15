@@ -1,10 +1,12 @@
 import React from "react";
+import constants from "@utils/constants";
 
 const QuizOptions = ({
   source,
   sessionUser,
   quizInput,
   setQuizInput,
+  setquizQuestionConfig,
   submitting,
   handleSubmit,
 }) => {
@@ -43,13 +45,25 @@ const QuizOptions = ({
             <select
               id="questionType"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              defaultValue="mcq"
+              defaultValue={constants.MCQ_TYPE}
+              onChange={(e) => {
+                console.log("Changed", e.target.value);
+                setquizQuestionConfig({
+                  questionType:
+                    constants.questionTypeMapping[e.target.value].type,
+                  questions:
+                    constants.questionTypeMapping[[e.target.value]]
+                      .initialQuestionSet,
+                });
+              }}
               name="questionType"
             >
-              <option value="mcq">MCQ</option>
-              <option value="boolean">True/False</option>
-              <option value="short_answer">Short Answer</option>
-              <option value="fill_in_blank">Fill in the blank</option>
+              <option value={constants.MCQ_TYPE}>MCQ</option>
+              <option value={constants.BOOLEAN_TYPE}>True/False</option>
+              <option value={constants.SHORT_ANSWER_TYPE}>Short Answer</option>
+              <option value={constants.FILL_IN_THE_BLANKS_TYPE}>
+                Fill in the blank
+              </option>
             </select>
           </div>
           <div className="w-1/2 m-4">
@@ -84,12 +98,13 @@ const QuizOptions = ({
             <select
               id="difficulty"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              defaultValue="easy"
+              defaultValue={constants.MIXBAG_DIFFICULTY}
               name="difficulty"
             >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              <option value={constants.MIXBAG_DIFFICULTY}>Mix Bag</option>
+              <option value={constants.EASY_DIFFICULTY}>Easy</option>
+              <option value={constants.MEDIUM_DIFFICULTY}>Medium</option>
+              <option value={constants.HARD_DIFFICULTY}>Hard</option>
             </select>
           </div>
           <div className="w-1/2 m-4">
