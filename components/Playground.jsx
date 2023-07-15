@@ -11,22 +11,14 @@ const Playground = () => {
         <div className="w-full flex flex-col lg:mr-8 lg:w-1/2">
           {/* Left Input Text Box */}
           <QuizOptions />
-          <div className="flex justify-center w-full my-4">
-            <a
-              href="#"
-              className="p-1 px-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"
-            >
-              Generate Quiz
-            </a>
-          </div>
         </div>
 
         {/* Right box with  */}
         <div className="w-full mb-12 space-y-3 flex flex-col items-start justify-start overflow-auto lg:w-1/2">
-          <QuestionCard />
-          <QuestionCard />
-          <QuestionCard />
-          <QuestionCard />
+          <QuestionCard key={1} />
+          <QuestionCard key={2} />
+          <QuestionCard key={3} />
+          <QuestionCard key={4} />
         </div>
       </div>
     </section>

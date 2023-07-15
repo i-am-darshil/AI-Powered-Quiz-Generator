@@ -9,12 +9,12 @@ const page = () => {
           {/* Left Input Text Box */}
           <QuizOptions />
           <div className="flex justify-center w-full my-4">
-            <a
+            {/* <a
               href="#"
               className="p-1 px-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"
             >
               Generate Quiz
-            </a>
+            </a> */}
           </div>
           <div className="black w-full border rounded-lg flex flex-col justify-between mt-4 p-6">
             <h4 className="font-light">
@@ -42,7 +42,7 @@ const page = () => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
             />
             <label
-              for="show_answers"
+              htmlFor="show_answers"
               className="w-full py-2 ml-2 text-sm font-medium "
             >
               Show Answers
@@ -56,7 +56,7 @@ const page = () => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
             />
             <label
-              for="auto_grade"
+              htmlFor="auto_grade"
               className="w-full py-2 ml-2 text-sm font-medium "
             >
               Auto Grade Quiz
@@ -70,7 +70,7 @@ const page = () => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
             />
             <label
-              for="allow_retry"
+              htmlFor="allow_retry"
               className="w-full py-2 ml-2 text-sm font-medium "
             >
               Allow Quiz retries
@@ -79,10 +79,10 @@ const page = () => {
         </div>
 
         {/* Right box with Questions */}
-        <div className="w-full mb-12 space-y-3 h-screen px-4 flex flex-col items-start justify-start lg:w-2/5 lg:overflow-auto">
+        <div className="w-full mb-12 space-y-3 px-4 flex flex-col items-start justify-start lg:w-2/5 lg:overflow-auto lg:h-screen">
           {/* Question List */}
           {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((obj, i) => {
-            return <QuestionCard />;
+            return <QuestionCard key={i} />;
           })}
         </div>
       </div>
