@@ -11,7 +11,7 @@ import util from "@utils/util";
 const page = () => {
   const [submitting, setIsSubmitting] = useState(false);
   const [quizInput, setQuizInput] = useState({
-    type: "text",
+    type: constants.TEXT_QUIZ_INPUT,
     value: "",
   });
   const [quizQuestionConfig, setquizQuestionConfig] = useState({

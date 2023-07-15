@@ -10,7 +10,7 @@ import constants from "@utils/constants";
 const Playground = () => {
   const [submitting, setIsSubmitting] = useState(false);
   const [quizInput, setQuizInput] = useState({
-    type: "text",
+    type: constants.TEXT_QUIZ_INPUT,
     value: "",
   });
   const [quizQuestionConfig, setquizQuestionConfig] = useState({

@@ -8,6 +8,10 @@ const BOOLEAN_TYPE = "boolean";
 const SHORT_ANSWER_TYPE = "shortAnswer";
 const FILL_IN_THE_BLANKS_TYPE = "fillInTheblanks";
 
+const TEXT_QUIZ_INPUT = "text";
+const TOPIC_QUIZ_INPUT = "topic";
+const WEBSITE_QUIZ_INPUT = "website";
+
 let initialQuestionSetForMCQ = [
   {
     question: "What is the main goal of artificial intelligence (AI)?",
@@ -191,6 +195,9 @@ export default {
   BOOLEAN_TYPE,
   SHORT_ANSWER_TYPE,
   FILL_IN_THE_BLANKS_TYPE,
+  TEXT_QUIZ_INPUT,
+  TOPIC_QUIZ_INPUT,
+  WEBSITE_QUIZ_INPUT,
 };
 
 /*

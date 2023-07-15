@@ -17,21 +17,83 @@ const QuizOptions = ({
     >
       <div className="bg-transparent w-full rounded-lg shadow text-center">
         <div className="w-full mx-auto max-w-screen-xl p-2 flex items-center justify-around">
-          <span className="text-sm black border-b border-black font-extrabold p-2 sm:text-center">
+          <span
+            className={`text-sm black cursor-pointer ${
+              quizInput.type == constants.TEXT_QUIZ_INPUT
+                ? "border-b border-black font-extrabold"
+                : ""
+            } p-2 sm:text-center`}
+            onClick={(e) => {
+              setQuizInput({ ...quizInput, type: constants.TEXT_QUIZ_INPUT });
+            }}
+          >
             Text
           </span>
-          <span className="text-sm black sm:text-center">Topic</span>
-          <span className="text-sm black sm:text-center">Website</span>
+          <span
+            className={`text-sm black cursor-pointer ${
+              quizInput.type == constants.TOPIC_QUIZ_INPUT
+                ? "border-b border-black font-extrabold"
+                : ""
+            } p-2 sm:text-center`}
+            onClick={(e) => {
+              setQuizInput({ ...quizInput, type: constants.TOPIC_QUIZ_INPUT });
+            }}
+          >
+            Topic
+          </span>
+          <span
+            className={`text-sm black cursor-pointer ${
+              // ----- COMING SOON FEATURE -----
+              false && quizInput.type == constants.WEBSITE_QUIZ_INPUT
+                ? "border-b border-black font-extrabold"
+                : ""
+            } p-2 sm:text-center`}
+            onClick={(e) => {
+              setQuizInput({
+                ...quizInput,
+                type: constants.WEBSITE_QUIZ_INPUT,
+              });
+            }}
+          >
+            Website (Coming Soon)
+          </span>
         </div>
       </div>
-      <textarea
-        id="quiz-text"
-        rows="12"
-        className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-        value={quizInput.value}
-        onChange={(e) => setQuizInput({ ...quizInput, value: e.target.value })}
-        placeholder="Artificial intelligence (AI) is the technological wizardry that brings science fiction to life. Imagine a world where machines not only crunch numbers but also possess the ability to learn, reason, and even exhibit creativity. From autonomous cars navigating busy city streets to chatbots engaging in human-like conversations, AI is transforming our reality. This cutting-edge field encompasses mind-boggling technologies like machine learning, where computers teach themselves from vast amounts of data, and computer vision, enabling machines to see and understand the world around them. Whether it's the breathtaking capabilities of AI-powered robots or the mind-bending applications in healthcare, finance, and gaming, the potential of AI seems limitless. However, with great power comes great responsibility. Ensuring that AI remains unbiased, transparent, and aligned with human values is crucial to prevent unintended consequences. As AI continues to push the boundaries of what's possible, we find ourselves on the precipice of an awe-inspiring future where human ingenuity and machine intelligence coexist in an unprecedented dance of progress and innovation."
-      ></textarea>
+
+      {quizInput.type == constants.TEXT_QUIZ_INPUT ? (
+        <textarea
+          id="quiz-text"
+          rows="12"
+          className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
+          value={quizInput.value}
+          onChange={(e) =>
+            setQuizInput({ ...quizInput, value: e.target.value })
+          }
+          placeholder="Artificial intelligence (AI) is the technological wizardry that brings science fiction to life. Imagine a world where machines not only crunch numbers but also possess the ability to learn, reason, and even exhibit creativity. From autonomous cars navigating busy city streets to chatbots engaging in human-like conversations, AI is transforming our reality. This cutting-edge field encompasses mind-boggling technologies like machine learning, where computers teach themselves from vast amounts of data, and computer vision, enabling machines to see and understand the world around them. Whether it's the breathtaking capabilities of AI-powered robots or the mind-bending applications in healthcare, finance, and gaming, the potential of AI seems limitless. However, with great power comes great responsibility. Ensuring that AI remains unbiased, transparent, and aligned with human values is crucial to prevent unintended consequences. As AI continues to push the boundaries of what's possible, we find ourselves on the precipice of an awe-inspiring future where human ingenuity and machine intelligence coexist in an unprecedented dance of progress and innovation."
+        ></textarea>
+      ) : quizInput.type == constants.TOPIC_QUIZ_INPUT ? (
+        <textarea
+          id="quiz-text"
+          rows="4"
+          className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
+          value={quizInput.value}
+          onChange={(e) =>
+            setQuizInput({ ...quizInput, value: e.target.value })
+          }
+          placeholder="Topics seperated by commas. E.g. Artificial intelligence, Machine Learning, ...."
+        ></textarea>
+      ) : (
+        <textarea
+          id="quiz-text"
+          rows="2"
+          className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
+          value={quizInput.value}
+          onChange={(e) =>
+            setQuizInput({ ...quizInput, value: e.target.value })
+          }
+          placeholder={`Generate quiz from a website. Coming Soon !!!\nE.g. https://en.wikipedia.org/wiki/Artificial_intelligence`}
+        ></textarea>
+      )}
 
       <div className="black w-full border rounded-lg flex flex-col justify-between mt-4">
         <div className="flex justify-around">
@@ -44,10 +106,9 @@ const QuizOptions = ({
             </label>
             <select
               id="questionType"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue={constants.MCQ_TYPE}
               onChange={(e) => {
-                console.log("Changed", e.target.value);
                 setquizQuestionConfig({
                   questionType:
                     constants.questionTypeMapping[e.target.value].type,
@@ -75,7 +136,7 @@ const QuizOptions = ({
             </label>
             <select
               id="language"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue="english"
               name="language"
             >
@@ -97,7 +158,7 @@ const QuizOptions = ({
             </label>
             <select
               id="difficulty"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue={constants.MIXBAG_DIFFICULTY}
               name="difficulty"
             >
@@ -116,7 +177,7 @@ const QuizOptions = ({
             </label>
             <select
               id="numberOfQuestions"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue="4"
               name="numberOfQuestions"
               disabled={!sessionUser}
@@ -134,7 +195,7 @@ const QuizOptions = ({
       </div>
       <button
         type="submit"
-        className="p-1 px-2 text-white w-full bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"
+        className="cursor-pointer p-1 px-2 text-white w-full bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"
         disabled={submitting}
       >
         Generate Quiz
