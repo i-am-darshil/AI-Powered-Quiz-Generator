@@ -10,7 +10,7 @@ const options = {
   },
 };
 
-let supabase = createClient(supabaseUrl, supabaseKey, options);
+const supabase = createClient(supabaseUrl, supabaseKey, options);
 
 const handler = NextAuth({
   providers: [
