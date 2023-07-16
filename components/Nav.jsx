@@ -25,7 +25,7 @@ const Nav = () => {
       <div className="flex items-center justify-between">
         {/* Log */}
         <div className="flex items-center justify-between">
-          <Image width={37} height={37} src="images/logo.svg" alt="" />
+          <Image width={37} height={37} src="/images/logo.svg" alt="" />
           <span className="black text-center ml-3 font-light text-2xl lg:block lg:text-4xl lg:ml-6">
             Quizopia
           </span>
