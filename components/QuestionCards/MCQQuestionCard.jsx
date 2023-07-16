@@ -4,24 +4,23 @@ const MCQQuestionCard = ({ questionNumber, question, submitting }) => {
       <h4 className="black font-bold">
         {submitting
           ? "Generating your Question..."
-          : `${questionNumber + 1} ${question.question}`}
+          : `${questionNumber + 1}) ${question.question}`}
       </h4>
-      <div className="flex orange_gradient flex-row font-bold text-sm pr-2">
-        <input type="radio" value="A" name="optionA" className="mr-2" />
-        {submitting ? "Generating your Option A..." : question.allOptions[0]}
-      </div>
-      <div className="flex orange_gradient flex-row font-bold text-sm pr-2">
-        <input type="radio" value="B" name="optionA" className="mr-2" />
-        {submitting ? "Generating your Option B..." : question.allOptions[1]}
-      </div>
-      <div className="flex orange_gradient flex-row font-bold text-sm pr-2">
-        <input type="radio" value="C" name="optionA" className="mr-2" />
-        {submitting ? "Generating your Option C..." : question.allOptions[2]}
-      </div>
-      <div className="flex orange_gradient flex-row font-bold text-sm pr-2">
-        <input type="radio" value="D" name="optionA" className="mr-2" />
-        {submitting ? "Generating your Option D..." : question.allOptions[3]}
-      </div>
+
+      {question.allOptions.map((option, i) => {
+        let char = String.fromCharCode("A".charCodeAt(0) + i);
+        return (
+          <div className="flex orange_gradient flex-row font-bold text-sm pr-2 tracking-wide">
+            <input
+              type="radio"
+              value={char}
+              name={`Q${questionNumber}Option${char}`}
+              className="mr-2"
+            />
+            {submitting ? `Generating your Option ${char}...` : option}
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -4,12 +4,12 @@ const ShortAnswerQuestionCard = ({ questionNumber, question, submitting }) => {
       <h4 className="orange_gradient font-bold">
         {submitting
           ? "Generating your Question..."
-          : `${questionNumber + 1} ${question.question}`}
+          : `${questionNumber + 1}) ${question.question}`}
       </h4>
       <div className="flex black flex-row font-bold text-sm w-full pr-2">
         <textarea
           rows={"3"}
-          name="answer"
+          name={`Q${questionNumber}Answer`}
           placeholder="Describe your answer in short"
           className="mr-2 w-full font-normal black p-2"
         />

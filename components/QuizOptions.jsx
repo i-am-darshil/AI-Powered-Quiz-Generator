@@ -65,10 +65,11 @@ const QuizOptions = ({
           id="quiz-text"
           rows="12"
           className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-          value={quizInput.value}
-          onChange={(e) =>
-            setQuizInput({ ...quizInput, value: e.target.value })
-          }
+          // value={quizInput.value}
+          name={constants.TEXT_QUIZ_INPUT}
+          // onChange={(e) =>
+          //   setQuizInput({ ...quizInput, value: e.target.value })
+          // }
           placeholder="Artificial intelligence (AI) is the technological wizardry that brings science fiction to life. Imagine a world where machines not only crunch numbers but also possess the ability to learn, reason, and even exhibit creativity. From autonomous cars navigating busy city streets to chatbots engaging in human-like conversations, AI is transforming our reality. This cutting-edge field encompasses mind-boggling technologies like machine learning, where computers teach themselves from vast amounts of data, and computer vision, enabling machines to see and understand the world around them. Whether it's the breathtaking capabilities of AI-powered robots or the mind-bending applications in healthcare, finance, and gaming, the potential of AI seems limitless. However, with great power comes great responsibility. Ensuring that AI remains unbiased, transparent, and aligned with human values is crucial to prevent unintended consequences. As AI continues to push the boundaries of what's possible, we find ourselves on the precipice of an awe-inspiring future where human ingenuity and machine intelligence coexist in an unprecedented dance of progress and innovation."
         ></textarea>
       ) : quizInput.type == constants.TOPIC_QUIZ_INPUT ? (
@@ -76,10 +77,11 @@ const QuizOptions = ({
           id="quiz-text"
           rows="4"
           className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-          value={quizInput.value}
-          onChange={(e) =>
-            setQuizInput({ ...quizInput, value: e.target.value })
-          }
+          // value={quizInput.value}
+          name={constants.TOPIC_QUIZ_INPUT}
+          // onChange={(e) =>
+          //   setQuizInput({ ...quizInput, value: e.target.value })
+          // }
           placeholder="Topics seperated by commas. E.g. Artificial intelligence, Machine Learning, ...."
         ></textarea>
       ) : (
@@ -87,10 +89,11 @@ const QuizOptions = ({
           id="quiz-text"
           rows="2"
           className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-          value={quizInput.value}
-          onChange={(e) =>
-            setQuizInput({ ...quizInput, value: e.target.value })
-          }
+          // value={quizInput.value}
+          name={constants.WEBSITE_QUIZ_INPUT}
+          // onChange={(e) =>
+          //   setQuizInput({ ...quizInput, value: e.target.value })
+          // }
           placeholder={`Generate quiz from a website. Coming Soon !!!\nE.g. https://en.wikipedia.org/wiki/Artificial_intelligence`}
         ></textarea>
       )}
@@ -118,6 +121,7 @@ const QuizOptions = ({
                 });
               }}
               name="questionType"
+              disabled={submitting}
             >
               <option value={constants.MCQ_TYPE}>MCQ</option>
               <option value={constants.BOOLEAN_TYPE}>True/False</option>
@@ -139,6 +143,7 @@ const QuizOptions = ({
               className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue="english"
               name="language"
+              disabled={submitting}
             >
               <option value="english">English</option>
               <option value="chinese">Mandarin Chinese</option>
@@ -161,6 +166,7 @@ const QuizOptions = ({
               className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue={constants.MIXBAG_DIFFICULTY}
               name="difficulty"
+              disabled={submitting}
             >
               <option value={constants.MIXBAG_DIFFICULTY}>Mix Bag</option>
               <option value={constants.EASY_DIFFICULTY}>Easy</option>
@@ -180,7 +186,7 @@ const QuizOptions = ({
               className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               defaultValue="4"
               name="numberOfQuestions"
-              disabled={!sessionUser}
+              disabled={!sessionUser || submitting}
             >
               <option value={4}>
                 {sessionUser ? "4" : "4 (SignUp For More)"}
@@ -188,6 +194,7 @@ const QuizOptions = ({
               <option value="8">8</option>
               <option value="12">12</option>
               <option value="16">16</option>
+              {/* 20 Questions is giving 503 error sometimes. Model used is default gpt-3.5-turbo */}
               <option value="20">20</option>
             </select>
           </div>

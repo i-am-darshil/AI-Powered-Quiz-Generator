@@ -11,7 +11,6 @@ const Playground = () => {
   const [submitting, setIsSubmitting] = useState(false);
   const [quizInput, setQuizInput] = useState({
     type: constants.TEXT_QUIZ_INPUT,
-    value: "",
   });
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
     questionType: constants.questionTypeMapping[constants.MCQ_TYPE].type,
@@ -28,7 +27,7 @@ const Playground = () => {
     const form = e.target;
     const formData = new FormData(form);
     console.log(
-      `Submitting Request to get quiz of input type ${quizInput.type} and value ${quizInput.value}}`
+      `Submitting Request to get quiz of input type ${quizInput.type}`
     );
     const formOptionEntries = Object.fromEntries(formData.entries());
     if (!formOptionEntries.numberOfQuestions)

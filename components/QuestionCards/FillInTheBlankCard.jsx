@@ -4,12 +4,12 @@ const FillInTheBlankCard = ({ questionNumber, question, submitting }) => {
       <h4 className="orange_gradient font-bold">
         {submitting
           ? "Generating your Question..."
-          : `${questionNumber + 1} ${question.question}`}
+          : `${questionNumber + 1}) ${question.question}`}
       </h4>
       <div className="flex black flex-row font-bold text-sm w-full pr-2">
         <textarea
           rows={"2"}
-          name="answer"
+          name={`Q${questionNumber}Answer`}
           placeholder="Fill in the blank"
           className="mr-2 w-full font-normal black py-2"
         />
