@@ -18,6 +18,7 @@ const QuestionCard = ({
           questionNumber={questionNumber}
           question={question}
           submitting={submitting}
+          key={questionNumber}
         />
       ) : questionType ==
         constants.questionTypeMapping[constants.BOOLEAN_TYPE].type ? (
@@ -25,6 +26,7 @@ const QuestionCard = ({
           questionNumber={questionNumber}
           question={question}
           submitting={submitting}
+          key={questionNumber}
         />
       ) : questionType ==
         constants.questionTypeMapping[constants.SHORT_ANSWER_TYPE].type ? (
@@ -32,12 +34,14 @@ const QuestionCard = ({
           questionNumber={questionNumber}
           question={question}
           submitting={submitting}
+          key={questionNumber}
         />
       ) : (
         <FillInTheBlankCard
           questionNumber={questionNumber}
           question={question}
           submitting={submitting}
+          key={questionNumber}
         />
       )}
     </div>

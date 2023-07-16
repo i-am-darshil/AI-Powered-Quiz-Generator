@@ -24,7 +24,10 @@ const QuizOptions = ({
                 : ""
             } p-2 sm:text-center`}
             onClick={(e) => {
-              setQuizInput({ ...quizInput, type: constants.TEXT_QUIZ_INPUT });
+              setQuizInput({
+                type: constants.TEXT_QUIZ_INPUT,
+                value: "",
+              });
             }}
           >
             Text
@@ -36,26 +39,28 @@ const QuizOptions = ({
                 : ""
             } p-2 sm:text-center`}
             onClick={(e) => {
-              setQuizInput({ ...quizInput, type: constants.TOPIC_QUIZ_INPUT });
+              setQuizInput({
+                type: constants.TOPIC_QUIZ_INPUT,
+                value: "",
+              });
             }}
           >
             Topic
           </span>
           <span
             className={`text-sm black cursor-pointer ${
-              // ----- COMING SOON FEATURE -----
-              false && quizInput.type == constants.WEBSITE_QUIZ_INPUT
+              quizInput.type == constants.WEBSITE_QUIZ_INPUT
                 ? "border-b border-black font-extrabold"
                 : ""
             } p-2 sm:text-center`}
             onClick={(e) => {
               setQuizInput({
-                ...quizInput,
                 type: constants.WEBSITE_QUIZ_INPUT,
+                value: "",
               });
             }}
           >
-            Website (Coming Soon)
+            Website
           </span>
         </div>
       </div>
@@ -63,38 +68,41 @@ const QuizOptions = ({
       {quizInput.type == constants.TEXT_QUIZ_INPUT ? (
         <textarea
           id="quiz-text"
+          required
           rows="12"
           className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-          // value={quizInput.value}
-          name={constants.TEXT_QUIZ_INPUT}
-          // onChange={(e) =>
-          //   setQuizInput({ ...quizInput, value: e.target.value })
-          // }
+          name="quizInputValue"
+          value={quizInput.value}
+          onChange={(e) =>
+            setQuizInput({ ...quizInput, value: e.target.value })
+          }
           placeholder="Artificial intelligence (AI) is the technological wizardry that brings science fiction to life. Imagine a world where machines not only crunch numbers but also possess the ability to learn, reason, and even exhibit creativity. From autonomous cars navigating busy city streets to chatbots engaging in human-like conversations, AI is transforming our reality. This cutting-edge field encompasses mind-boggling technologies like machine learning, where computers teach themselves from vast amounts of data, and computer vision, enabling machines to see and understand the world around them. Whether it's the breathtaking capabilities of AI-powered robots or the mind-bending applications in healthcare, finance, and gaming, the potential of AI seems limitless. However, with great power comes great responsibility. Ensuring that AI remains unbiased, transparent, and aligned with human values is crucial to prevent unintended consequences. As AI continues to push the boundaries of what's possible, we find ourselves on the precipice of an awe-inspiring future where human ingenuity and machine intelligence coexist in an unprecedented dance of progress and innovation."
         ></textarea>
       ) : quizInput.type == constants.TOPIC_QUIZ_INPUT ? (
         <textarea
           id="quiz-text"
+          required
           rows="4"
           className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-          // value={quizInput.value}
-          name={constants.TOPIC_QUIZ_INPUT}
-          // onChange={(e) =>
-          //   setQuizInput({ ...quizInput, value: e.target.value })
-          // }
+          name="quizInputValue"
+          value={quizInput.value}
+          onChange={(e) =>
+            setQuizInput({ ...quizInput, value: e.target.value })
+          }
           placeholder="Topics seperated by commas. E.g. Artificial intelligence, Machine Learning, ...."
         ></textarea>
       ) : (
         <textarea
           id="quiz-text"
+          required
           rows="2"
           className="block p-2.5 w-full text-sm text-gray-900 black rounded border border-brightRedLight"
-          // value={quizInput.value}
-          name={constants.WEBSITE_QUIZ_INPUT}
-          // onChange={(e) =>
-          //   setQuizInput({ ...quizInput, value: e.target.value })
-          // }
-          placeholder={`Generate quiz from a website. Coming Soon !!!\nE.g. https://en.wikipedia.org/wiki/Artificial_intelligence`}
+          name="quizInputValue"
+          value={quizInput.value}
+          onChange={(e) =>
+            setQuizInput({ ...quizInput, value: e.target.value })
+          }
+          placeholder={`Generate quiz from a website!!!\nE.g. https://en.wikipedia.org/wiki/Artificial_intelligence`}
         ></textarea>
       )}
 

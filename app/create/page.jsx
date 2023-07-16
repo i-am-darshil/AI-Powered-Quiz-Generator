@@ -12,6 +12,7 @@ const page = () => {
   const [submitting, setIsSubmitting] = useState(false);
   const [quizInput, setQuizInput] = useState({
     type: constants.TEXT_QUIZ_INPUT,
+    value: "",
   });
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
     questionType: constants.questionTypeMapping.mcq.type,
@@ -40,7 +41,9 @@ const page = () => {
       const response = await fetch("/api/generate-quiz", {
         method: "POST",
         body: JSON.stringify({
-          quizInput: quizInput,
+          quizInput: {
+            type: quizInput.type,
+          },
           quizOptions: formOptionEntries,
         }),
       });

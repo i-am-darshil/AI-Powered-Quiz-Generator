@@ -20,6 +20,13 @@ export const POST = async (request) => {
     let numberOfQuestions = requestData.quizOptions.numberOfQuestions;
     let difficultyMode = requestData.quizOptions.difficulty;
     let language = requestData.quizOptions.language;
+    let quizInputType = requestData.quizInput.type;
+    let quizInputValue = requestData.quizOptions.quizInputValue;
+
+    let quizInputPrompt = constants.inputTypePrompt[quizInputType].replace(
+      "###inputValue###",
+      quizInputValue
+    );
 
     let prompt =
       constants.questionTypeMapping[requestData.quizOptions.questionType]
@@ -29,18 +36,16 @@ export const POST = async (request) => {
     const mockQuestions =
       constants.questionTypeMapping[requestData.quizOptions.questionType]
         .initialQuestionSet;
-
-    const mockTopic = "Harry Potter";
     // ---- END OF MOCKING GPT CALLS ----
 
     prompt = prompt.replace("###numberOfQuestions###", numberOfQuestions);
     prompt = prompt.replace("###questionType###", questionType);
-    prompt = prompt.replace("###topic###", mockTopic);
     prompt = prompt.replace("###language###", language);
     prompt = prompt.replace(
       "###difficultyPrompt###",
       constants.difficultyPrompt[difficultyMode]
     );
+    prompt = prompt.replace("###inputTypePrompt###", quizInputPrompt);
 
     let messageToGPT = {
       role: "user",
@@ -49,37 +54,32 @@ export const POST = async (request) => {
 
     console.log("messageToGPT", messageToGPT);
 
-    // const completion = await openai.createChatCompletion({
-    //   model: "gpt-3.5-turbo",
-    //   messages: [messageToGPT],
-    // });
+    // ---- START OF ACTUAL GPT CALLS ----
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [messageToGPT],
+    });
 
-    // console.log("completion", completion.data.choices[0].message);
+    console.log("completion", completion.data.choices[0].message);
 
-    // const questions = JSON.parse(
-    //   completion.data.choices[0].message.content
-    // ).response;
+    const questions = JSON.parse(
+      completion.data.choices[0].message.content
+    ).response;
 
-    // console.log("completion json parse", questions);
-
-    // A sample response
-    // {
-    //   response: [
-    //     {
-    //       question: 'In Harry Potter, the beloved owl that delivers mail to Harry is named _____________.',
-    //       answer: 'Hedwig'
-    //     },
-    //     {
-    //       question: 'The Hogwarts School of Witchcraft and Wizardry is located in ____________.',
-    //       answer: 'Scotland'
-    //     }
-    //   ]
-    // }
+    console.log("completion json parse", questions);
 
     const response = {
       questionType: questionType,
-      questions: util.shuffleArray(mockQuestions),
+      questions: util.shuffleArray(questions),
     };
+    // ---- END OF ACTUAL GPT CALLS ----
+
+    // ---- START OF MOCKED GPT RESPONSE ----
+    // const response = {
+    //   questionType: questionType,
+    //   questions: util.shuffleArray(mockQuestions),
+    // };
+    // ---- END OF MOCKED GPT RESPONSE ----
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {

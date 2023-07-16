@@ -10,7 +10,10 @@ const BooleanQuestionCard = ({ questionNumber, question, submitting }) => {
       {["True", "False"].map((option, i) => {
         let char = String.fromCharCode("A".charCodeAt(0) + i);
         return (
-          <div className="flex orange_gradient flex-row font-bold text-sm pr-2 tracking-wide">
+          <div
+            className="flex orange_gradient flex-row font-bold text-sm pr-2 tracking-wide"
+            key={`Q${questionNumber}Option${char}`}
+          >
             <input
               type="radio"
               value={char}
