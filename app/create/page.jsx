@@ -37,9 +37,9 @@ const page = () => {
       `Submitting Request to get quiz of input type ${quizInput.type}`
     );
     const formOptionEntries = Object.fromEntries(formData.entries());
-    if (!formOptionEntries.numberOfQuestions)
+    if (!formOptionEntries.numberOfQuestions || !sessionUser)
       formOptionEntries["numberOfQuestions"] =
-        quizQuestionConfig.questions.length.toString();
+        constants.WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS.numberOfQuestions;
 
     console.log("formOptionEntries", formOptionEntries);
 
@@ -83,6 +83,7 @@ const page = () => {
           allowRetry: formOptionEntries.allowRetry == "on" ? true : false,
           autoGrade: formOptionEntries.autoGrade == "on" ? true : false,
           creatorId: sessionUser.id,
+          quizType: quizQuestionConfig.questionType,
           questions: quizQuestionConfig.questions,
         }),
       });

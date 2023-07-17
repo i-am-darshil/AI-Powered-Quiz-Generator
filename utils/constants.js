@@ -12,6 +12,10 @@ const TEXT_QUIZ_INPUT = "text";
 const TOPIC_QUIZ_INPUT = "topic";
 const WEBSITE_QUIZ_INPUT = "website";
 
+const WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS = {
+  numberOfQuestions: 4,
+};
+
 let initialQuestionSetForMCQ = [
   {
     question: "What is the main goal of artificial intelligence (AI)?",
@@ -228,6 +232,7 @@ export default {
   TEXT_QUIZ_INPUT,
   TOPIC_QUIZ_INPUT,
   WEBSITE_QUIZ_INPUT,
+  WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS,
 };
 
 /*

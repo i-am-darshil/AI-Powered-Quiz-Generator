@@ -31,9 +31,9 @@ const Playground = () => {
       `Submitting Request to get quiz of input type ${quizInput.type}`
     );
     const formOptionEntries = Object.fromEntries(formData.entries());
-    if (!formOptionEntries.numberOfQuestions)
+    if (!formOptionEntries.numberOfQuestions || !sessionUser)
       formOptionEntries["numberOfQuestions"] =
-        quizQuestionConfig.questions.length.toString();
+        constants.WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS.numberOfQuestions;
 
     console.log("formOptionEntries", formOptionEntries);
 

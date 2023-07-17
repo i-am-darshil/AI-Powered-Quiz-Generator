@@ -15,6 +15,10 @@ export const POST = async (request) => {
   try {
     const requestData = await request.json();
 
+    console.log(
+      `Recieved a generate quiz request for ${JSON.stringify(requestData)}`
+    );
+
     const { data, error } = await supabase
       .from("quizzes")
       .insert([
@@ -26,13 +30,16 @@ export const POST = async (request) => {
             allowRetry: requestData.allowRetry,
             autoGrade: requestData.autoGrade,
           },
+          quiz_type: requestData.quizType,
         },
       ])
       .select("id");
 
     if (error) {
       console.error(
-        `Failed to add quiz of user ${requestData.creatorId} to database`
+        `Failed to add quiz of user ${
+          requestData.creatorId
+        } to database. Error : ${JSON.stringify(error)}`
       );
 
       return new Response(
