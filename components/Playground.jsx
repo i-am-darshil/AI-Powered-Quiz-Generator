@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import QuestionCard from "@components/QuestionCards/QuestionCard";
 import QuizOptions from "@components/QuizOptions";
 import constants from "@utils/constants";
+import { useUser } from "@context/UserContext";
 
 const Playground = () => {
+  const { user } = useUser();
+
   const [submitting, setIsSubmitting] = useState(false);
   const [quizInput, setQuizInput] = useState({
     type: constants.TEXT_QUIZ_INPUT,
@@ -19,9 +22,6 @@ const Playground = () => {
       constants.questionTypeMapping[constants.MCQ_TYPE].initialQuestionSet,
   });
 
-  const { data: session } = useSession();
-  const sessionUser = session?.user;
-
   const getQuizGuestions = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -31,7 +31,7 @@ const Playground = () => {
       `Submitting Request to get quiz of input type ${quizInput.type}`
     );
     const formOptionEntries = Object.fromEntries(formData.entries());
-    if (!formOptionEntries.numberOfQuestions || !sessionUser)
+    if (!formOptionEntries.numberOfQuestions || !user)
       formOptionEntries["numberOfQuestions"] =
         constants.WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS.numberOfQuestions;
 
@@ -70,7 +70,7 @@ const Playground = () => {
           {/* Left Input Text Box */}
           <QuizOptions
             source="Playground"
-            sessionUser={sessionUser}
+            sessionUser={user}
             quizInput={quizInput}
             setQuizInput={setQuizInput}
             setquizQuestionConfig={setquizQuestionConfig}

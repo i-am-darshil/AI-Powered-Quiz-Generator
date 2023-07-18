@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
 import constants from "@utils/constants";
 import QuestionCard from "@components/QuestionCards/QuestionCard";
+import { useUser } from "@context/UserContext";
 
 const page = ({ params }) => {
+  const { user } = useUser();
+
   const [loading, setIsloading] = useState(true);
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
     questionType: constants.questionTypeMapping.mcq.type,
@@ -15,9 +17,6 @@ const page = ({ params }) => {
     options: {},
     quizFound: true,
   });
-
-  const { data: session } = useSession();
-  const sessionUser = session?.user;
 
   useEffect(() => {
     (async () => {
@@ -50,7 +49,7 @@ const page = ({ params }) => {
         </div>
       )}
 
-      {sessionUser ? (
+      {user ? (
         <span></span>
       ) : quizQuestionConfig.quizFound ? (
         <div className="black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-norma">
@@ -79,7 +78,7 @@ const page = ({ params }) => {
         })}
       </div>
 
-      {sessionUser && quizQuestionConfig.quizFound ? (
+      {user && quizQuestionConfig.quizFound ? (
         <button
           type="submit"
           className="cursor-pointer p-1 px-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"

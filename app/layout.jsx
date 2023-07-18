@@ -1,11 +1,12 @@
 import "@styles/globals.css";
 import Nav from "@components/Nav";
 import Footer from "@components/Footer";
-import Provider from "@components/Provider";
+// import Provider from "@components/Provider";
+import Provider from "@context/UserContext";
 
 export const metadata = {
-  title: "QuizopIA",
-  description: "Stop Wasting Time Manually Creating Quizzes",
+  title: "SuperQuizzer",
+  description: "Stop Wasting Time Manually Creating & Grading Quizzes",
 };
 
 const RootLayout = ({ children }) => {

@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import constants from "@utils/constants";
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_PUBLIC_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const options = {
   auth: {
     persistSession: false,

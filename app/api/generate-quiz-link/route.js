@@ -1,29 +1,55 @@
-import { createClient } from "@supabase/supabase-js";
+// import { createClient } from "@supabase/supabase-js";
 import constants from "@utils/constants";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_PUBLIC_KEY;
-const options = {
-  auth: {
-    persistSession: false,
-  },
-};
+// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+// const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// const options = {
+//   auth: {
+//     persistSession: false,
+//   },
+// };
 
-const supabase = createClient(supabaseUrl, supabaseKey, options);
+// const supabase = createClient(supabaseUrl, supabaseKey, options);
 
 export const POST = async (request) => {
   try {
     const requestData = await request.json();
 
+    const supabase = createServerComponentClient({ cookies });
+
+    const { data, error } = await supabase.auth.getSession();
+    console.log(
+      `Generating quiz link. Session Data: ${JSON.stringify(
+        data
+      )} error: ${JSON.stringify(error)}}`
+    );
+
+    let sessionUser;
+    if (data.session) {
+      const sessionUser = data.session.user;
+    } else {
+      return new Response(
+        JSON.stringify({
+          quizLink: `You need to sign in first`,
+          allowRetry: requestData.allowRetry,
+          autoGrade: requestData.autoGrade,
+        }),
+        { status: 200 }
+      );
+    }
+
     console.log(
       `Recieved a generate quiz request for ${JSON.stringify(requestData)}`
     );
 
-    const { data, error } = await supabase
+    // const { data, error } = await supabase
+    const supabaseResponse = await supabase
       .from("quizzes")
       .insert([
         {
-          creator_id: requestData.creatorId,
+          creator_id: sessionUser.id,
           questions: requestData.questions,
           title: requestData.quizTitle,
           options: {
@@ -35,11 +61,11 @@ export const POST = async (request) => {
       ])
       .select("id");
 
-    if (error) {
+    if (supabaseResponse.error) {
       console.error(
         `Failed to add quiz of user ${
-          requestData.creatorId
-        } to database. Error : ${JSON.stringify(error)}`
+          sessionUser.id
+        } to database. Error : ${JSON.stringify(supabaseResponse.error)}`
       );
 
       return new Response(
@@ -53,11 +79,11 @@ export const POST = async (request) => {
     }
 
     console.log(
-      `Created a database for user ${requestData.creatorId} with Quiz Id : ${data[0].id}`
+      `Created a database for user ${sessionUser.id} with Quiz Id : ${supabaseResponse.data[0].id}`
     );
 
     const response = {
-      quizLink: `${process.env.NEXTAUTH_URL}/join/${data[0].id}`,
+      quizLink: `${process.env.SITE_URL}/join/${supabaseResponse.data[0].id}`,
       allowRetry: requestData.allowRetry,
       autoGrade: requestData.autoGrade,
     };

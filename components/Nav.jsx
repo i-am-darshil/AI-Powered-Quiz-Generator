@@ -2,21 +2,25 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
-const Nav = () => {
-  const { data: session } = useSession();
+import { useState, useEffect } from "react";
+import { useUser } from "@context/UserContext";
 
-  const [providers, setProviders] = useState(null);
+const Nav = ({ session }) => {
+  const { user, login, logout } = useUser();
+  const providers = [
+    {
+      name: "google",
+    },
+  ];
+
   const [toggleDropdown, setToggleDropdown] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   useEffect(() => {
-    (async () => {
-      const res = await getProviders();
-      console.log("use effect");
-      setProviders(res);
-    })();
+    // console.log("window.location.hostname", window.location.hostname);
+    // console.log("window.location.href", window.location.href); // Logs `http://localhost:3000/blog/incididunt-ut-lobare-et-dolore`
+    setCurrentUrl(window.location.href);
   }, []);
 
   return (
@@ -34,7 +38,7 @@ const Nav = () => {
         <div className="flex-row justify-center items-center text-black font-light hidden md:flex">
           {/* Desktop view */}
           {/* If Logged in */}
-          {session?.user ? (
+          {user ? (
             <div className="hidden justify-center items-center space-x-6 md:flex">
               <Link href="#" className="hover:text-darkGrayishBlue">
                 Create A Quiz
@@ -45,7 +49,7 @@ const Nav = () => {
               <button
                 type="button"
                 className="hover:text-darkGrayishBlue"
-                onClick={signOut}
+                onClick={logout}
               >
                 Log Out
               </button>
@@ -53,7 +57,7 @@ const Nav = () => {
                 <Image
                   width={37}
                   height={37}
-                  src={session?.user.image}
+                  src={user.user_metadata.avatar_url}
                   alt=""
                   className="rounded-full"
                   alt="profile"
@@ -66,10 +70,10 @@ const Nav = () => {
           ) : (
             <div className="hidden space-x-6 md:flex">
               <Link href="#" className="hover:text-darkGrayishBlue">
-                Pricing
+                Create A Quiz
               </Link>
               <Link href="#" className="hover:text-darkGrayishBlue">
-                About Us
+                Join A Quiz
               </Link>
               {providers &&
                 Object.values(providers).map((provider) => {
@@ -78,7 +82,7 @@ const Nav = () => {
                       type="button"
                       key={provider.name}
                       onClick={() => {
-                        signIn(provider.id);
+                        login(provider.name, currentUrl);
                       }}
                       className="px-3 ml-6 text-white font-light bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
                     >
@@ -92,12 +96,12 @@ const Nav = () => {
 
         {/* Mobile view */}
         <div className="flex relative items-center justify-center font-light md:hidden">
-          {session?.user ? (
+          {user ? (
             <div className="flex">
               <Image
                 width={37}
                 height={37}
-                src={session?.user.image}
+                src={user.user_metadata.avatar_url}
                 alt=""
                 className="rounded-full"
                 alt="profile"
@@ -133,7 +137,7 @@ const Nav = () => {
                     type="button"
                     onClick={() => {
                       setToggleDropdown(false);
-                      signOut();
+                      logout();
                     }}
                     className="mt-5 w-full black_btn"
                   >
@@ -150,7 +154,7 @@ const Nav = () => {
                   type="button"
                   key={provider.name}
                   onClick={() => {
-                    signIn(provider.id);
+                    login(provider.name, currentUrl);
                   }}
                   className="px-3 ml-6 text-white font-light bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block"
                 >

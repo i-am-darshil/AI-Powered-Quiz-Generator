@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 
 import QuestionCard from "@components/QuestionCards/QuestionCard";
 import QuizOptions from "@components/QuizOptions";
 import constants from "@utils/constants";
 import util from "@utils/util";
+import { useUser } from "@context/UserContext";
 
 const page = () => {
+  const { user } = useUser();
   const [submitting, setIsSubmitting] = useState(false);
   const [quizInput, setQuizInput] = useState({
     type: constants.TEXT_QUIZ_INPUT,
@@ -25,9 +26,6 @@ const page = () => {
     autoGrade: false,
   });
 
-  const { data: session } = useSession();
-  const sessionUser = session?.user;
-
   const getQuizGuestions = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -37,7 +35,7 @@ const page = () => {
       `Submitting Request to get quiz of input type ${quizInput.type}`
     );
     const formOptionEntries = Object.fromEntries(formData.entries());
-    if (!formOptionEntries.numberOfQuestions || !sessionUser)
+    if (!formOptionEntries.numberOfQuestions || !user)
       formOptionEntries["numberOfQuestions"] =
         constants.WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS.numberOfQuestions;
 
@@ -68,6 +66,12 @@ const page = () => {
 
   const getQuizLink = async (e) => {
     e.preventDefault();
+
+    console.log(`Generating quiz link. User: ${JSON.stringify(user)}`);
+    if (!user) {
+      return;
+    }
+
     const form = e.target;
     const formData = new FormData(form);
     console.log(`Generating quiz link`);
@@ -82,7 +86,7 @@ const page = () => {
           quizTitle: formOptionEntries.quizTitle,
           allowRetry: formOptionEntries.allowRetry == "on" ? true : false,
           autoGrade: formOptionEntries.autoGrade == "on" ? true : false,
-          creatorId: sessionUser.id,
+          creatorId: user.id,
           quizType: quizQuestionConfig.questionType,
           questions: quizQuestionConfig.questions,
         }),
@@ -105,7 +109,7 @@ const page = () => {
           {/* Left Input Text Box */}
           <QuizOptions
             source="Create"
-            sessionUser={sessionUser}
+            sessionUser={user}
             quizInput={quizInput}
             setQuizInput={setQuizInput}
             setquizQuestionConfig={setquizQuestionConfig}
@@ -227,23 +231,36 @@ const page = () => {
 
             <button
               type="submit"
-              className="cursor-pointer p-1 px-2 text-white w-full bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto mt-8"
+              className={`${
+                user ? "cursor-pointer" : "cursor-not-allowed"
+              } p-1 px-2 text-white w-full bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto mt-8`}
             >
-              Generate Quiz Link
+              {user ? `Generate Quiz Link` : "Sign In"}
             </button>
           </form>
 
-          <div className="black w-full border rounded-lg flex flex-col justify-between mt-4 p-6">
-            <h4 className="font-light break-all">
-              Your quiz Link :{" "}
-              <a className="orange_gradient" href={quizLinkConfig.quizLink}>
-                {quizLinkConfig.quizLink}
-              </a>
-            </h4>
-            <p className="font-extralight text-xs break-all mt-2">
-              Share & Spread Quizopia
-            </p>
-          </div>
+          {user ? (
+            <div className="black w-full border rounded-lg flex flex-col justify-between mt-4 p-6">
+              <h4 className="font-light break-all">
+                Your quiz Link :{" "}
+                <a className="orange_gradient" href={quizLinkConfig.quizLink}>
+                  {quizLinkConfig.quizLink}
+                </a>
+              </h4>
+              <p className="font-extralight text-xs break-normal mt-2">
+                Share & Spread Quizopia
+              </p>
+            </div>
+          ) : (
+            <div className="black w-full border rounded-lg flex flex-col justify-between mt-4 p-6">
+              <h4 className="font-light break-normal">
+                Please sign in to generate quiz link
+              </h4>
+              <p className="font-extralight text-xs break-normal mt-2">
+                Share & Spread Quizopia
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>
