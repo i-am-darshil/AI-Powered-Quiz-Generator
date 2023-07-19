@@ -45,7 +45,7 @@ const page = ({ params }) => {
           className={`${
             quizQuestionConfig.quizFound
               ? "text-2xl font-bold tracking-wide break-normal"
-              : "black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal"
+              : "black font-extralight bg-brightRedLight border border-gray-200 px-4 mx-4 rounded-lg break-normal"
           } `}
         >
           {quizQuestionConfig.title}
