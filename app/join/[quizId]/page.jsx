@@ -7,20 +7,21 @@ import QuestionCard from "@components/QuestionCards/QuestionCard";
 import { useUser } from "@context/UserContext";
 
 const page = ({ params }) => {
-  const { user } = useUser();
+  const { user, isUserSessionLoading } = useUser();
 
-  const [loading, setIsloading] = useState(true);
+  const [isQuizLoading, setIsQuizLoading] = useState(true);
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
     questionType: constants.questionTypeMapping.mcq.type,
-    questions: constants.questionTypeMapping.mcq.initialQuestionSet,
-    title: "Loading the quiz title...",
+    questions: [],
+    title: "",
     options: {},
-    quizFound: true,
+    quizFound: false,
   });
 
   useEffect(() => {
     (async () => {
       try {
+        if (!user) return;
         const response = await fetch(`/api/get-quiz/${params.quizId}`);
 
         if (response.ok) {
@@ -33,51 +34,55 @@ const page = ({ params }) => {
       } catch (error) {
         console.error(error);
       } finally {
-        setIsloading(false);
+        setIsQuizLoading(false);
       }
     })();
-  }, []);
+  }, [user]);
   return (
     <div className="w-full h-screen justify-start items-center flex flex-col">
-      {quizQuestionConfig.quizFound ? (
-        <h2 className="text-2xl font-bold tracking-wide break-normal">
+      {user ? (
+        <h2
+          className={`${
+            quizQuestionConfig.quizFound
+              ? "text-2xl font-bold tracking-wide break-normal"
+              : "black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal"
+          } `}
+        >
           {quizQuestionConfig.title}
         </h2>
       ) : (
-        <div className="black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-norma">
-          <h3>{quizQuestionConfig.title}</h3>
-        </div>
+        <></>
       )}
-
-      {user ? (
-        <span></span>
-      ) : quizQuestionConfig.quizFound ? (
-        <div className="black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-norma">
+      <div className="black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal">
+        {/* TODO : 'Loading Your Quiz' does not stay until quiz has loaded. isQuizLoading is somehow not coming into effect */}
+        {isUserSessionLoading || isQuizLoading ? (
+          <h3>Loading Your Quiz</h3>
+        ) : !user ? (
           <h3>
-            You need to <span className="font-normal">sign in</span> to submit
-            the quiz
+            Please <span className="font-normal">sign in</span> to enter the
+            quiz
           </h3>
-        </div>
-      ) : (
-        <span></span>
-      )}
+        ) : (
+          <></>
+        )}
+      </div>
 
       {/* Middle box with Questions */}
       <div className="m-4 w-full space-y-3 px-4 flex flex-col items-start justify-start overflow-auto mx-auto md:px-32 lg:px-64">
         {/* Question List */}
-        {quizQuestionConfig.questions.map((question, i) => {
-          return (
-            <QuestionCard
-              key={i}
-              question={question}
-              questionType={quizQuestionConfig.questionType}
-              questionNumber={i}
-              submitting={loading}
-            />
-          );
-        })}
+        {user &&
+          quizQuestionConfig.questions.map((question, i) => {
+            return (
+              <QuestionCard
+                key={i}
+                question={question}
+                questionType={quizQuestionConfig.questionType}
+                questionNumber={i}
+                submitting={isQuizLoading}
+              />
+            );
+          })}
       </div>
-
       {user && quizQuestionConfig.quizFound ? (
         <button
           type="submit"

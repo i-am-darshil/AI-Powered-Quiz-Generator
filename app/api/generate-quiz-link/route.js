@@ -1,17 +1,6 @@
-// import { createClient } from "@supabase/supabase-js";
 import constants from "@utils/constants";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-
-// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-// const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-// const options = {
-//   auth: {
-//     persistSession: false,
-//   },
-// };
-
-// const supabase = createClient(supabaseUrl, supabaseKey, options);
 
 export const POST = async (request) => {
   try {
@@ -28,7 +17,7 @@ export const POST = async (request) => {
 
     let sessionUser;
     if (data.session) {
-      const sessionUser = data.session.user;
+      sessionUser = data.session.user;
     } else {
       return new Response(
         JSON.stringify({
@@ -44,7 +33,6 @@ export const POST = async (request) => {
       `Recieved a generate quiz request for ${JSON.stringify(requestData)}`
     );
 
-    // const { data, error } = await supabase
     const supabaseResponse = await supabase
       .from("quizzes")
       .insert([
@@ -90,13 +78,13 @@ export const POST = async (request) => {
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (err) {
-    console.error(error);
+    console.error(err);
 
     return new Response(
       JSON.stringify({
         quizLink: `Something went wrong :(`,
-        allowRetry: requestData.allowRetry,
-        autoGrade: requestData.autoGrade,
+        allowRetry: false,
+        autoGrade: false,
       }),
       { status: 200 }
     );

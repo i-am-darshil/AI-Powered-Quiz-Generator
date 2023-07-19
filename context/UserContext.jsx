@@ -2,7 +2,7 @@
 
 import { createContext, useState, useEffect, useContext } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const Context = createContext();
 
@@ -11,9 +11,9 @@ export const supabase = createClientComponentClient();
 const SITE_URL = process.env.SITE_URL;
 
 const Provider = ({ children }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserSessionLoading, setIsUserSessionLoading] = useState(true);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -32,13 +32,17 @@ const Provider = ({ children }) => {
           });
         }
       }
-      setIsLoading(false);
+      setIsUserSessionLoading(false);
     };
 
-    getUserProfile();
+    // Below invocation is calling the funciton to be called twice
+    // getUserProfile();
 
-    supabase.auth.onAuthStateChange(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      // if (event == "SIGNED_IN" || event == "SIGNED_OUT") {
+      console.log("Auth changed");
       getUserProfile();
+      // }
     });
   }, []);
 
@@ -69,7 +73,7 @@ const Provider = ({ children }) => {
     user,
     login,
     logout,
-    isLoading,
+    isUserSessionLoading,
   };
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
