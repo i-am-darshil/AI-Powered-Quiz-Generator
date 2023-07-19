@@ -1,4 +1,9 @@
-const BooleanQuestionCard = ({ questionNumber, question, submitting }) => {
+const BooleanQuestionCard = ({
+  questionNumber,
+  question,
+  submitting,
+  showAnswers,
+}) => {
   return (
     <div className="flex w-full flex-col items-start my-4 lg:mx-4">
       <h4 className="black font-bold">
@@ -24,6 +29,19 @@ const BooleanQuestionCard = ({ questionNumber, question, submitting }) => {
           </div>
         );
       })}
+
+      {showAnswers ? (
+        <div>
+          <h4 className="mt-2">{`Correct Answer - ${question.correctOption}`}</h4>
+          {question.reason ? (
+            <h4 className="mt-1 text-sm font-extralight">{`Reason - ${question.reason}`}</h4>
+          ) : (
+            <></>
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

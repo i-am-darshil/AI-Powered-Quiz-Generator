@@ -1,4 +1,9 @@
-const FillInTheBlankCard = ({ questionNumber, question, submitting }) => {
+const FillInTheBlankCard = ({
+  questionNumber,
+  question,
+  submitting,
+  showAnswers,
+}) => {
   return (
     <div className="flex w-full flex-col items-start my-4 lg:mx-4">
       <h4 className="orange_gradient font-bold">
@@ -14,6 +19,11 @@ const FillInTheBlankCard = ({ questionNumber, question, submitting }) => {
           className="mr-2 w-full font-normal black py-2"
         />
       </div>
+      {showAnswers ? (
+        <h4 className="mt-2">{`Correct Answer - ${question.answer}`}</h4>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
