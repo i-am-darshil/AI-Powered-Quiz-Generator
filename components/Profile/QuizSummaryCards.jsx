@@ -71,7 +71,7 @@ const QuizSummaryCards = () => {
 
       <div id="defaultTabContent">
         <div
-          className="p-1 bg-white rounded-lg md:px-8 md:py-4"
+          className="p-4 bg-white rounded-lg md:px-8 md:py-4"
           id="about"
           role="tabpanel"
           aria-labelledby="about-tab"
@@ -81,6 +81,9 @@ const QuizSummaryCards = () => {
             Quiz Title 1
             <span className="block lowercase text-base font-extralight orange_gradient">
               https://your-awesome-quiz-link
+            </span>
+            <span className="block uppercase text-xs font-extralight black">
+              created at :
             </span>
           </h2>
 
@@ -155,22 +158,37 @@ const QuizSummaryCards = () => {
             <div className="flex flex-col items-center w-1/2">
               <dt className="mb-2 text-l font-normal">100M+</dt>
               <dd className="text-gray-500 text-sm text-center font-light">
-                Avgerage Score
+                Number of Visitors
               </dd>
             </div>
           </div>
 
           <div className="w-full flex items-center justify-around">
             <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">73M+</dt>
+              <dt className="mb-2 text-l font-normal">100M+</dt>
               <dd className="text-gray-500 text-sm text-center font-light">
-                Number of Perfect Scores
+                Avgerage Score
               </dd>
             </div>
             <div className="flex flex-col items-center w-1/2">
               <dt className="mb-2 text-l font-normal">100M+</dt>
               <dd className="text-gray-500 text-sm text-center font-light">
                 Avgerage Time To Complete
+              </dd>
+            </div>
+          </div>
+
+          <div className="w-full flex items-center justify-around">
+            <div className="flex flex-col items-center w-1/2">
+              <dt className="mb-2 text-l font-normal">100M+</dt>
+              <dd className="text-gray-500 text-sm text-center font-light">
+                0% - 50% Score
+              </dd>
+            </div>
+            <div className="flex flex-col items-center w-1/2">
+              <dt className="mb-2 text-l font-normal">100M+</dt>
+              <dd className="text-gray-500 text-sm text-center font-light">
+                50% - 100% Score
               </dd>
             </div>
           </div>

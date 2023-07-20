@@ -73,6 +73,7 @@ const Playground = () => {
             sessionUser={user}
             quizInput={quizInput}
             setQuizInput={setQuizInput}
+            quizQuestionConfig={quizQuestionConfig}
             setquizQuestionConfig={setquizQuestionConfig}
             submitting={submitting}
             handleSubmit={getQuizGuestions}

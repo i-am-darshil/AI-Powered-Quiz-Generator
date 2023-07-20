@@ -41,8 +41,8 @@ export const POST = async (request) => {
           questions: requestData.questions,
           title: requestData.quizTitle,
           options: {
-            allowRetry: requestData.allowRetry,
-            autoGrade: requestData.autoGrade,
+            dfficulty: requestData.dfficulty,
+            language: requestData.language,
           },
           quiz_type: requestData.quizType,
         },

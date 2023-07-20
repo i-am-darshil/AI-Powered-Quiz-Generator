@@ -6,6 +6,7 @@ const QuizOptions = ({
   sessionUser,
   quizInput,
   setQuizInput,
+  quizQuestionConfig,
   setquizQuestionConfig,
   submitting,
   handleSubmit,
@@ -121,6 +122,7 @@ const QuizOptions = ({
               defaultValue={constants.MCQ_TYPE}
               onChange={(e) => {
                 setquizQuestionConfig({
+                  ...quizQuestionConfig,
                   questionType:
                     constants.questionTypeMapping[e.target.value].type,
                   questions:

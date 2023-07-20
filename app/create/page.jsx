@@ -18,12 +18,18 @@ const page = () => {
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
     questionType: constants.questionTypeMapping.mcq.type,
     questions: constants.questionTypeMapping.mcq.initialQuestionSet,
+    difficulty: constants.MIXBAG_DIFFICULTY, // Only set once a quiz is generated from server and it sends this param
+    language: "english", // Only set once a quiz is generated from server and it sends this param
   });
 
   const [quizLinkConfig, setQuizLinkConfig] = useState({
     quizLink: "https://your-awesome-quiz-link-to-be-generated",
     allowRetry: false,
     autoGrade: false,
+  });
+
+  const [viewPreferences, setViewPreferences] = useState({
+    previewAnswers: false,
   });
 
   const getQuizGuestions = async (e) => {
@@ -66,7 +72,6 @@ const page = () => {
 
   const getQuizLink = async (e) => {
     e.preventDefault();
-
     console.log(`Generating quiz link. User: ${JSON.stringify(user)}`);
     if (!user) {
       return;
@@ -84,8 +89,10 @@ const page = () => {
         method: "POST",
         body: JSON.stringify({
           quizTitle: formOptionEntries.quizTitle,
-          allowRetry: formOptionEntries.allowRetry == "on" ? true : false,
-          autoGrade: formOptionEntries.autoGrade == "on" ? true : false,
+          // allowRetry: formOptionEntries.allowRetry == "on" ? true : false,
+          // autoGrade: formOptionEntries.autoGrade == "on" ? true : false,
+          dfficulty: quizQuestionConfig.difficulty,
+          language: quizQuestionConfig.language,
           creatorId: user.id,
           quizType: quizQuestionConfig.questionType,
           questions: quizQuestionConfig.questions,
@@ -99,6 +106,7 @@ const page = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
     }
   };
 
@@ -112,6 +120,7 @@ const page = () => {
             sessionUser={user}
             quizInput={quizInput}
             setQuizInput={setQuizInput}
+            quizQuestionConfig={quizQuestionConfig}
             setquizQuestionConfig={setquizQuestionConfig}
             submitting={submitting}
             handleSubmit={getQuizGuestions}
@@ -149,6 +158,7 @@ const page = () => {
                 questionType={quizQuestionConfig.questionType}
                 questionNumber={i}
                 submitting={submitting}
+                showAnswers={viewPreferences.previewAnswers}
               />
             );
           })}
@@ -167,12 +177,20 @@ const page = () => {
                 value=""
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 name="showAnswers"
+                onChange={() => {
+                  setViewPreferences((current) => {
+                    return {
+                      ...current,
+                      previewAnswers: !current.previewAnswers,
+                    };
+                  });
+                }}
               />
               <label
                 htmlFor="showAnswers"
                 className="w-full py-2 ml-2 text-sm font-medium "
               >
-                Show Answers
+                Preview Answers
               </label>
             </div>
           </div>
@@ -180,20 +198,21 @@ const page = () => {
           <form className="w-full" onSubmit={getQuizLink}>
             <div className="w-full">
               <h3 className="bg-transparent w-full rounded-lg shadow text-center p-4 font-bold">
-                Quiz Preferences
+                Quiz Preferences (Coming Soon)
               </h3>
               <div className="flex items-center pl-3">
                 <input
-                  id="autoGrade"
+                  id="timeLimit"
                   type="checkbox"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                  name="autoGrade"
+                  name="timeLimit"
+                  disabled={true}
                 />
                 <label
-                  htmlFor="autoGrade"
+                  htmlFor="timeLimit"
                   className="w-full py-2 ml-2 text-sm font-medium "
                 >
-                  Auto Grade Quiz
+                  Enable Time Limit
                 </label>
               </div>
             </div>
@@ -203,6 +222,7 @@ const page = () => {
                 type="checkbox"
                 name="allowRetry"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                disabled={true}
               />
               <label
                 htmlFor="allowRetry"

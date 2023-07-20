@@ -71,6 +71,8 @@ export const POST = async (request) => {
     // const response = {
     //   questionType: questionType,
     //   questions: util.shuffleArray(questions),
+    //   difficulty: difficultyMode,
+    //   language: language
     // };
     // ---- END OF ACTUAL GPT CALLS ----
 
@@ -78,6 +80,8 @@ export const POST = async (request) => {
     const response = {
       questionType: questionType,
       questions: util.shuffleArray(mockQuestions),
+      difficulty: difficultyMode,
+      language: language,
     };
     // ---- END OF MOCKED GPT RESPONSE ----
 
