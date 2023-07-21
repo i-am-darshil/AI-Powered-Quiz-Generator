@@ -89,10 +89,7 @@ export const POST = async (request) => {
     let quizType = quizQuestionConfig.quiz_type;
     let questionAndAnswers = quizQuestionConfig.questions;
     let score = 0;
-    const toGrade = [
-      constants.questionTypeMapping[constants.MCQ_TYPE].type,
-      constants.questionTypeMapping[constants.BOOLEAN_TYPE].type,
-    ].includes(quizType);
+    const toGrade = constants.QUIZZES_TO_GRADE.includes(quizType);
     if (toGrade) {
       score = getScore(userResponses, questionAndAnswers);
       console.log(

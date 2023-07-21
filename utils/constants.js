@@ -216,6 +216,11 @@ questionTypeMapping[FILL_IN_THE_BLANKS_TYPE] = {
   \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified`,
 };
 
+const QUIZZES_TO_GRADE = [
+  questionTypeMapping[MCQ_TYPE].type,
+  questionTypeMapping[BOOLEAN_TYPE].type,
+];
+
 export default {
   questionTypeMapping,
   difficultyPrompt,
@@ -233,6 +238,7 @@ export default {
   TOPIC_QUIZ_INPUT,
   WEBSITE_QUIZ_INPUT,
   WIHTOUT_SIGNED_INT_USER_DEFAULT_PROPS,
+  QUIZZES_TO_GRADE,
 };
 
 /*

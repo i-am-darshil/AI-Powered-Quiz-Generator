@@ -1,17 +1,26 @@
-const TableRow = () => {
+import Link from "next/link";
+import constants from "@utils/constants";
+
+const TableRow = ({ quizResponse, quizId, quizType }) => {
   return (
     <tr className="border-brightRedLight text-black border-b border-x capitalize">
       <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap came">
-        Darshil Shah
+        {quizResponse.submitter_name}
       </th>
       {/* <td className="px-6 py-4 lowercase">darshil@somaiya.edu</td> */}
-      <td className="px-6 py-4">12:00</td>
-      <td className="px-6 py-4">20</td>
-      <td className="px-6 py-4">1</td>
+      <td className="px-6 py-4">{quizResponse.time_to_submit_in_minutes}</td>
+      <td className="px-6 py-4">
+        {constants.QUIZZES_TO_GRADE.includes(quizType)
+          ? quizResponse.score
+          : "NA"}
+      </td>
+      <td className="px-6 py-4">
+        {new Date(quizResponse.quiz_started_at).toLocaleString()}
+      </td>
       <td className="px-6 py-4 text-center">
-        <button
-          type="button"
+        <Link
           className="text-brightRedLight hover:cursor-pointer hover:border-black  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-1 text-center inline-flex items-center"
+          href={`/responses/${quizId}/${quizResponse.id}`}
         >
           <svg
             className="w-6 h-6 text-brightRedLight hover:text-brightRed"
@@ -24,7 +33,7 @@ const TableRow = () => {
             <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z" />
           </svg>
           <span className="sr-only">Icon description</span>
-        </button>
+        </Link>
       </td>
     </tr>
   );

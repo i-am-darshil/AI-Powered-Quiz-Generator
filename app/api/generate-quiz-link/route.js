@@ -45,6 +45,7 @@ export const POST = async (request) => {
             language: requestData.language,
           },
           quiz_type: requestData.quizType,
+          number_of_questions: requestData.questions.length,
         },
       ])
       .select("id");

@@ -22,7 +22,7 @@ const RootLayout = ({ children }) => {
             <Nav />
 
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </main>
         </Provider>
       </body>

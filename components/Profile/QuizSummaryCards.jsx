@@ -1,8 +1,16 @@
 "use client";
 
+import constants from "@utils/constants";
 import { useState } from "react";
+import Link from "next/link";
 
-const QuizSummaryCards = () => {
+const QuizSummaryCards = ({
+  quizSummary,
+  domainName,
+  quizNumber,
+  isSelectedToShowResponse,
+  setQuizSelected,
+}) => {
   const [showAnalytics, setShowAnalytics] = useState(false);
 
   return (
@@ -45,8 +53,15 @@ const QuizSummaryCards = () => {
           <li>
             <button
               type="button"
-              className="bg-brightRedLight text-white hover:cursor-pointer focus:ring-4 focus:outline-none font-medium rounded-lg text-sm m-2 p-2 text-center inline-flex items-center"
-              disabled={true}
+              className={`${
+                isSelectedToShowResponse
+                  ? "bg-brightRedLight text-white"
+                  : "bg-white text-brightRedLight border border-brightRedLight"
+              } hover:cursor-pointer focus:ring-4 focus:outline-none font-medium rounded-lg text-sm m-2 p-2 text-center inline-flex items-center`}
+              onClick={() => {
+                setQuizSelected(quizNumber);
+              }}
+              // disabled={true}
             >
               <svg
                 className="w-5 h-5"
@@ -78,16 +93,19 @@ const QuizSummaryCards = () => {
           hidden={showAnalytics}
         >
           <h2 className="mb-3 pb-2 uppercase text-xl font-light tracking-tight border-b border-gray-200">
-            Quiz Title 1
-            <span className="block lowercase text-base font-extralight orange_gradient">
-              https://your-awesome-quiz-link
-            </span>
-            <span className="block uppercase text-xs font-extralight black">
-              created at :
+            {quizSummary.title}
+            <Link
+              className="block lowercase text-base font-extralight orange_gradient"
+              href={`${domainName}/join/${quizSummary.id}`}
+            >
+              {`${domainName}/join/${quizSummary.id}`}
+            </Link>
+            <span className="block capitalize text-xs font-extralight black">
+              {`created at : ${new Date(quizSummary.created_at)}`}
             </span>
           </h2>
 
-          <ul role="list" className="space-y-4 text-gray-500 ">
+          <ul role="list" className="space-y-4 text-gray-500 capitalize">
             <li className="flex space-x-2 items-center">
               <svg
                 className="flex-shrink-0 w-3.5 h-3.5 text-brightRedLight"
@@ -99,7 +117,7 @@ const QuizSummaryCards = () => {
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
               </svg>
               <span className="leading-tight">
-                20 Multiple Choice Questions
+                {`${quizSummary.number_of_questions} ${quizSummary.quiz_type} Questions`}
               </span>
             </li>
             <li className="flex space-x-2 items-center">
@@ -112,7 +130,7 @@ const QuizSummaryCards = () => {
               >
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
               </svg>
-              <span className="leading-tight">Mixbad difficulty</span>
+              <span className="leading-tight">{`${quizSummary.options.dfficulty} difficulty`}</span>
             </li>
             <li className="flex space-x-2 items-center">
               <svg
@@ -125,7 +143,7 @@ const QuizSummaryCards = () => {
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
               </svg>
               <span className="leading-tight">
-                Based on the topics provided
+                {`In ${quizSummary.options.language} language`}
               </span>
             </li>
             <li className="flex space-x-2 items-center">
@@ -150,13 +168,13 @@ const QuizSummaryCards = () => {
         >
           <div className="w-full flex items-center justify-around">
             <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">73M+</dt>
+              <dt className="mb-2 text-l font-normal">{`${quizSummary.quiz_analytics[0].number_of_responses}`}</dt>
               <dd className="text-gray-500 text-sm text-center font-light">
                 Number of Responses
               </dd>
             </div>
             <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">100M+</dt>
+              <dt className="mb-2 text-l font-normal">{`${quizSummary.quiz_analytics[0].number_of_visitors}`}</dt>
               <dd className="text-gray-500 text-sm text-center font-light">
                 Number of Visitors
               </dd>
@@ -164,34 +182,56 @@ const QuizSummaryCards = () => {
           </div>
 
           <div className="w-full flex items-center justify-around">
+            {constants.QUIZZES_TO_GRADE.includes(quizSummary.quiz_type) ? (
+              <div className="flex flex-col items-center w-1/2">
+                <dt className="mb-2 text-l font-normal">
+                  {`${(
+                    quizSummary.quiz_analytics[0].total_score /
+                    quizSummary.quiz_analytics[0].number_of_responses
+                  ).toFixed(2)} / ${quizSummary.number_of_questions}`}
+                </dt>
+                <dd className="text-gray-500 text-sm text-center font-light">
+                  Avgerage Score
+                </dd>
+              </div>
+            ) : (
+              <></>
+            )}
+
             <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">100M+</dt>
+              <dt className="mb-2 text-l font-normal">{`${(
+                quizSummary.quiz_analytics[0]
+                  .total_time_to_complete_in_minutes /
+                quizSummary.quiz_analytics[0].number_of_responses
+              ).toFixed(2)} Mins`}</dt>
               <dd className="text-gray-500 text-sm text-center font-light">
-                Avgerage Score
-              </dd>
-            </div>
-            <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">100M+</dt>
-              <dd className="text-gray-500 text-sm text-center font-light">
-                Avgerage Time To Complete
+                Average Time To Complete
               </dd>
             </div>
           </div>
 
-          <div className="w-full flex items-center justify-around">
-            <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">100M+</dt>
-              <dd className="text-gray-500 text-sm text-center font-light">
-                0% - 50% Score
-              </dd>
+          {constants.QUIZZES_TO_GRADE.includes(quizSummary.quiz_type) ? (
+            <div className="w-full flex items-center justify-around">
+              <div className="flex flex-col items-center w-1/2">
+                <dt className="mb-2 text-l font-normal">
+                  {quizSummary.quiz_analytics[0].zero_to_fifty_percent}
+                </dt>
+                <dd className="text-gray-500 text-sm text-center font-light">
+                  0% - 50% Score
+                </dd>
+              </div>
+              <div className="flex flex-col items-center w-1/2">
+                <dt className="mb-2 text-l font-normal">
+                  {quizSummary.quiz_analytics[0].fifty_to_hundred_percent}
+                </dt>
+                <dd className="text-gray-500 text-sm text-center font-light">
+                  50% - 100% Score
+                </dd>
+              </div>
             </div>
-            <div className="flex flex-col items-center w-1/2">
-              <dt className="mb-2 text-l font-normal">100M+</dt>
-              <dd className="text-gray-500 text-sm text-center font-light">
-                50% - 100% Score
-              </dd>
-            </div>
-          </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
