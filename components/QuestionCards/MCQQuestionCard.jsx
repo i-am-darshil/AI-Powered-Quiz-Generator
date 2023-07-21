@@ -3,10 +3,11 @@ const MCQQuestionCard = ({
   question,
   submitting,
   showAnswers,
+  userChoice,
 }) => {
   return (
     <div className="flex w-full flex-col items-start my-4 lg:mx-4">
-      <h4 className="black font-bold">
+      <h4 className="black font-bold mr-4">
         {submitting
           ? "Generating your Question..."
           : `${questionNumber + 1}) ${question.question}`}
@@ -25,6 +26,8 @@ const MCQQuestionCard = ({
               name={`Q${questionNumber}`}
               className="mr-2"
               required={true}
+              checked={userChoice && userChoice === char}
+              readOnly={userChoice}
             />
             {submitting ? `Generating your Option ${char}...` : option}
           </div>

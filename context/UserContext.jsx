@@ -18,11 +18,11 @@ const Provider = ({ children }) => {
   useEffect(() => {
     const getUserProfile = async () => {
       const { data, error } = await supabase.auth.getSession();
-      console.log(
-        `Inside useEffect of Provider. Data: ${JSON.stringify(
-          data
-        )} error: ${JSON.stringify(error)}}`
-      );
+      // console.log(
+      //   `Inside useEffect of Provider. Data: ${JSON.stringify(
+      //     data
+      //   )} error: ${JSON.stringify(error)}}`
+      // );
 
       if (data.session) {
         const sessionUser = data.session.user;

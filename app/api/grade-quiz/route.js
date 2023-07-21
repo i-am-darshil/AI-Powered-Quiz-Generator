@@ -89,12 +89,11 @@ export const POST = async (request) => {
     let quizType = quizQuestionConfig.quiz_type;
     let questionAndAnswers = quizQuestionConfig.questions;
     let score = 0;
-    if (
-      [
-        constants.questionTypeMapping[constants.MCQ_TYPE].type,
-        constants.questionTypeMapping[constants.BOOLEAN_TYPE].type,
-      ].includes(quizType)
-    ) {
+    const toGrade = [
+      constants.questionTypeMapping[constants.MCQ_TYPE].type,
+      constants.questionTypeMapping[constants.BOOLEAN_TYPE].type,
+    ].includes(quizType);
+    if (toGrade) {
       score = getScore(userResponses, questionAndAnswers);
       console.log(
         `Score for for quizId : ${quizId}, responseId : ${responseId} is ${score}`
@@ -135,10 +134,10 @@ export const POST = async (request) => {
         score: score,
         time_to_submit_in_minutes: timeToComplete,
         add_zero_to_fifty_percent:
-          score / questionAndAnswers.length <= 0.5 ? 1 : 0,
+          toGrade && score / questionAndAnswers.length <= 0.5 ? 1 : 0,
         add_fifty_to_hundred_percent:
-          score / questionAndAnswers.length > 0.5 ? 1 : 0,
-        perfect_score: score === questionAndAnswers.length ? 1 : 0,
+          toGrade && score / questionAndAnswers.length > 0.5 ? 1 : 0,
+        perfect_score: toGrade && score === questionAndAnswers.length ? 1 : 0,
         quiz_id: quizId,
       }
     );

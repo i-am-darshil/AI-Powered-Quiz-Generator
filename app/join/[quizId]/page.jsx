@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
 import constants from "@utils/constants";
@@ -10,7 +9,6 @@ import { useUser } from "@context/UserContext";
 
 const page = ({ params }) => {
   const { user, isUserSessionLoading } = useUser();
-  const supabase = createClientComponentClient();
   const { push } = useRouter();
 
   const [isQuizLoading, setIsQuizLoading] = useState(false);
@@ -114,8 +112,6 @@ const page = ({ params }) => {
       className="w-full h-screen justify-start items-center flex flex-col"
       onSubmit={submitResponse}
     >
-      {console.log("quizQuestionConfig", JSON.stringify(quizQuestionConfig))}
-
       {user ? (
         <h2
           className={`${
