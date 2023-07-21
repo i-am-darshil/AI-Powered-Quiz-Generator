@@ -14,9 +14,10 @@ const FillInTheBlankCard = ({
       <div className="flex black flex-row font-bold text-sm w-full pr-2">
         <textarea
           rows={"2"}
-          name={`Q${questionNumber}Answer`}
+          name={`Q${questionNumber}`}
           placeholder="Fill in the blank"
           className="mr-2 w-full font-normal black py-2"
+          required={true}
         />
       </div>
       {showAnswers ? (

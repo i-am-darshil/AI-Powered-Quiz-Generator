@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 import constants from "@utils/constants";
 import QuestionCard from "@components/QuestionCards/QuestionCard";
@@ -10,6 +11,7 @@ import { useUser } from "@context/UserContext";
 const page = ({ params }) => {
   const { user, isUserSessionLoading } = useUser();
   const supabase = createClientComponentClient();
+  const { push } = useRouter();
 
   const [isQuizLoading, setIsQuizLoading] = useState(false);
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
@@ -23,8 +25,13 @@ const page = ({ params }) => {
     hasAlreadySubmitted: false,
     quizStartedAt: "",
   });
+  const [quizSubmitResponse, setQuizSubmitResponse] = useState({
+    response: "",
+    responseLink: "",
+    isGrading: false,
+  });
 
-  let enterQuiz = async () => {
+  const enterQuiz = async () => {
     if (!user) {
       setquizQuestionConfig({
         ...quizQuestionConfig,
@@ -44,8 +51,69 @@ const page = ({ params }) => {
     }
   };
 
+  const submitResponse = async (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      setQuizSubmitResponse({
+        ...quizSubmitResponse,
+        response: "You need to sign in first",
+      });
+      return;
+    }
+
+    setQuizSubmitResponse({
+      ...quizSubmitResponse,
+      isGrading: true,
+    });
+
+    let quizStartDateTime = new Date(quizQuestionConfig.quizStartedAt);
+    let quizEndDateTime = new Date(new Date().toUTCString());
+
+    let timeInMinutes =
+      Math.abs(quizEndDateTime - quizStartDateTime) / (1000 * 60);
+
+    const form = e.target;
+    const formData = new FormData(form);
+    console.log(`Submitting Request to grade quiz of id ${params.quizId}`);
+    const formOptionEntries = Object.fromEntries(formData.entries());
+
+    console.log("formOptionEntries", formOptionEntries);
+    let responses = [];
+    for (let i = 0; i < quizQuestionConfig.questions.length; i++) {
+      responses.push(formOptionEntries[`Q${i}`]);
+    }
+
+    console.log(
+      `Quiz responses : ${responses}, timeInMinutes : ${timeInMinutes}`
+    );
+
+    try {
+      const response = await fetch("/api/grade-quiz", {
+        method: "POST",
+        body: JSON.stringify({
+          quizId: params.quizId,
+          userResponses: responses,
+          timeToComplete: timeInMinutes,
+          responseId: quizQuestionConfig.responseId,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`Recieved response from server : ${JSON.stringify(data)}`);
+        push(data.responseLink);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <form className="w-full h-screen justify-start items-center flex flex-col">
+    <form
+      className="w-full h-screen justify-start items-center flex flex-col"
+      onSubmit={submitResponse}
+    >
       {console.log("quizQuestionConfig", JSON.stringify(quizQuestionConfig))}
 
       {user ? (
@@ -74,6 +142,17 @@ const page = ({ params }) => {
           <></>
         )}
       </div>
+
+      {quizSubmitResponse.isGrading ? (
+        <div className="black font-extralight m-4 bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal">
+          <h3>
+            Grading your quiz. You will be redirected to your response page
+            after graded.
+          </h3>
+        </div>
+      ) : (
+        <></>
+      )}
 
       {!isUserSessionLoading &&
       user &&

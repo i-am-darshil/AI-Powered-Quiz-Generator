@@ -22,8 +22,9 @@ const MCQQuestionCard = ({
             <input
               type="radio"
               value={char}
-              name={`Q${questionNumber}Option${char}`}
+              name={`Q${questionNumber}`}
               className="mr-2"
+              required={true}
             />
             {submitting ? `Generating your Option ${char}...` : option}
           </div>

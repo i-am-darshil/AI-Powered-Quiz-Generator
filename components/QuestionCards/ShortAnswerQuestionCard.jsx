@@ -14,9 +14,10 @@ const ShortAnswerQuestionCard = ({
       <div className="flex black flex-row font-bold text-sm w-full pr-2">
         <textarea
           rows={"3"}
-          name={`Q${questionNumber}Answer`}
+          name={`Q${questionNumber}`}
           placeholder="Describe your answer in short"
           className="mr-2 w-full font-normal black p-2"
+          required={true}
         />
       </div>
       {showAnswers ? (

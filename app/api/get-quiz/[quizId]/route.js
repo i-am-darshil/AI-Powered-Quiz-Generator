@@ -95,7 +95,7 @@ export const GET = async (request, { params }) => {
     quizQuestionConfig["questions"] = quizQuestions;
     quizQuestionConfig["options"] = quizzesResponse.data[0].options;
     quizQuestionConfig["title"] = quizzesResponse.data[0].title;
-    quizQuestionConfig["questionType"] = quizzesResponse.data[0].questionType;
+    quizQuestionConfig["questionType"] = quizzesResponse.data[0].quiz_type;
     quizQuestionConfig["quizFound"] = true;
 
     const quizResponses = await supabase
