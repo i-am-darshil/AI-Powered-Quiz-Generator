@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import constants from "@utils/constants";
 import QuestionCard from "@components/QuestionCards/QuestionCard";
@@ -8,38 +9,45 @@ import { useUser } from "@context/UserContext";
 
 const page = ({ params }) => {
   const { user, isUserSessionLoading } = useUser();
+  const supabase = createClientComponentClient();
 
-  const [isQuizLoading, setIsQuizLoading] = useState(true);
+  const [isQuizLoading, setIsQuizLoading] = useState(false);
   const [quizQuestionConfig, setquizQuestionConfig] = useState({
     questionType: constants.questionTypeMapping.mcq.type,
     questions: [],
     title: "",
     options: {},
-    quizFound: false,
+    quizFound: true,
+    quizStarted: false,
+    responseId: "",
+    hasAlreadySubmitted: false,
+    quizStartedAt: "",
   });
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!user) return;
-        const response = await fetch(`/api/get-quiz/${params.quizId}`);
+  let enterQuiz = async () => {
+    if (!user) {
+      setquizQuestionConfig({
+        ...quizQuestionConfig,
+        title: "You need to sign in first",
+      });
+      return;
+    }
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log(
-            `Recieved response from server : ${JSON.stringify(data)}`
-          );
-          setquizQuestionConfig(data);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsQuizLoading(false);
-      }
-    })();
-  }, [user]);
+    setIsQuizLoading(true);
+    const response = await fetch(`/api/get-quiz/${params.quizId}`);
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`Recieved response from server : ${JSON.stringify(data)}`);
+      setquizQuestionConfig(data);
+      setIsQuizLoading(false);
+    }
+  };
+
   return (
-    <div className="w-full h-screen justify-start items-center flex flex-col">
+    <form className="w-full h-screen justify-start items-center flex flex-col">
+      {console.log("quizQuestionConfig", JSON.stringify(quizQuestionConfig))}
+
       {user ? (
         <h2
           className={`${
@@ -55,7 +63,7 @@ const page = ({ params }) => {
       )}
       <div className="black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal">
         {/* TODO : 'Loading Your Quiz' does not stay until quiz has loaded. isQuizLoading is somehow not coming into effect */}
-        {isUserSessionLoading || isQuizLoading ? (
+        {isQuizLoading ? (
           <h3>Loading Your Quiz</h3>
         ) : !user ? (
           <h3>
@@ -67,10 +75,27 @@ const page = ({ params }) => {
         )}
       </div>
 
+      {!isUserSessionLoading &&
+      user &&
+      quizQuestionConfig.quizFound &&
+      !quizQuestionConfig.quizStarted &&
+      !isQuizLoading &&
+      !quizQuestionConfig.hasAlreadySubmitted ? (
+        <button
+          className="cursor-pointer w-96 mt-4 p-1 px-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"
+          onClick={enterQuiz}
+        >
+          Enter The Quiz
+        </button>
+      ) : (
+        <></>
+      )}
+
       {/* Middle box with Questions */}
       <div className="m-4 w-full space-y-3 px-4 flex flex-col items-start justify-start overflow-auto mx-auto md:px-32 lg:px-64">
-        {/* Question List */}
         {user &&
+          quizQuestionConfig.quizStarted &&
+          !quizQuestionConfig.hasAlreadySubmitted &&
           quizQuestionConfig.questions.map((question, i) => {
             return (
               <QuestionCard
@@ -83,7 +108,10 @@ const page = ({ params }) => {
             );
           })}
       </div>
-      {user && quizQuestionConfig.quizFound ? (
+      {user &&
+      quizQuestionConfig.quizStarted &&
+      quizQuestionConfig.quizFound &&
+      !quizQuestionConfig.hasAlreadySubmitted ? (
         <button
           type="submit"
           className="cursor-pointer p-1 px-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight text-center mx-auto"
@@ -93,7 +121,7 @@ const page = ({ params }) => {
       ) : (
         <span></span>
       )}
-    </div>
+    </form>
   );
 };
 
