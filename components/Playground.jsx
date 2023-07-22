@@ -8,6 +8,8 @@ import QuizOptions from "@components/QuizOptions";
 import constants from "@utils/constants";
 import { useUser } from "@context/UserContext";
 
+import Link from "next/link";
+
 const Playground = () => {
   const { user } = useUser();
 
@@ -61,10 +63,22 @@ const Playground = () => {
   };
 
   return (
-    <section>
-      <h1 className="text-center mt-8 text-3xl font-thin md:text-4xl md:mt-16">
-        - LET'S TRY IT OUT -
+    <section className="lg:h-fit">
+      <h1 className="text-center mt-8 text-3xl font-thin md:text-4xl md:mt-16 uppercase">
+        - Playground Mode -
       </h1>
+      <div className="black w-full md:w-1/2 text-center md:mx-auto my-4 font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal">
+        <h3>
+          To avail full set of features, please visit{" "}
+          <Link
+            className="lowercase text-base font-extralight underline underline-offset-2"
+            href={`/create`}
+          >
+            {`Quiz-Create`}
+          </Link>{" "}
+          page to create your quizes.
+        </h3>
+      </div>
       <div className="container flex w-full flex-col items-center px-6 mx-auto mt-4 space-y-0 lg:flex-row lg:items-start lg:mt-8">
         <div className="w-full flex flex-col lg:mr-8 lg:w-1/2">
           {/* Left Input Text Box */}
@@ -81,7 +95,7 @@ const Playground = () => {
         </div>
 
         {/* Right box with  */}
-        <div className="w-full mb-12 space-y-3 flex flex-col items-start justify-start overflow-auto lg:w-1/2">
+        <div className="w-full mb-12 space-y-3 flex flex-col items-start justify-start overflow-auto lg:w-1/2 lg:overflow-auto">
           {quizQuestionConfig.questions.map((question, i) => {
             return (
               <QuestionCard

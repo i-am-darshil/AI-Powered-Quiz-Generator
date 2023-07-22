@@ -29,10 +29,15 @@ const Nav = ({ session }) => {
       <div className="flex items-center justify-between">
         {/* Log */}
         <div className="flex items-center justify-between">
-          <Image width={37} height={37} src="/images/logo.svg" alt="" />
-          <span className="black text-center ml-3 font-light text-2xl lg:block lg:text-4xl lg:ml-6">
-            Quizopia
-          </span>
+          <Link href="/">
+            <Image width={37} height={37} src="/images/logo.svg" alt="" />
+          </Link>
+          <Link
+            className="black text-center ml-3 font-light text-2xl lg:block lg:text-4xl lg:ml-6"
+            href="/"
+          >
+            SuperQuizzer
+          </Link>
         </div>
 
         <div className="flex-row justify-center items-center text-black font-light hidden md:flex">
@@ -40,15 +45,27 @@ const Nav = ({ session }) => {
           {/* If Logged in */}
           {user ? (
             <div className="hidden justify-center items-center space-x-6 md:flex">
-              <Link href="#" className="hover:text-darkGrayishBlue">
-                Create A Quiz
+              <Link
+                href="/create"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
+              >
+                Create
               </Link>
-              <Link href="#" className="hover:text-darkGrayishBlue">
-                Join A Quiz
+              <Link
+                href="/my-created-quizzes"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
+              >
+                Profile
+              </Link>
+              <Link
+                href="/pricing"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
+              >
+                Pricing
               </Link>
               <button
                 type="button"
-                className="hover:text-darkGrayishBlue"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
                 onClick={logout}
               >
                 Log Out
@@ -69,11 +86,23 @@ const Nav = ({ session }) => {
             </div>
           ) : (
             <div className="hidden space-x-6 md:flex">
-              <Link href="#" className="hover:text-darkGrayishBlue">
-                Create A Quiz
+              <Link
+                href="/create"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
+              >
+                Create
               </Link>
-              <Link href="#" className="hover:text-darkGrayishBlue">
-                Join A Quiz
+              <Link
+                href="/my-created-quizzes"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
+              >
+                Profile
+              </Link>
+              <Link
+                href="/pricing"
+                className="uppercase font-extralight hover:text-brightRed hover:underline hover:underline-offset-2"
+              >
+                Pricing
               </Link>
               {providers &&
                 Object.values(providers).map((provider) => {
@@ -113,25 +142,25 @@ const Nav = ({ session }) => {
               {toggleDropdown && (
                 <div className="dropdown">
                   <Link
-                    href="#"
-                    className="dropdown_link"
+                    href="/my-created-quizzes"
+                    className="dropdown_link hover:underline hover:underline-offset-2"
                     onClick={() => setToggleDropdown(false)}
                   >
                     My Profile
                   </Link>
                   <Link
-                    href="#"
-                    className="dropdown_link"
+                    href="create"
+                    className="dropdown_link hover:underline hover:underline-offset-2"
                     onClick={() => setToggleDropdown(false)}
                   >
                     Create A Quiz
                   </Link>
                   <Link
                     href="#"
-                    className="dropdown_link"
+                    className="dropdown_link hover:underline hover:underline-offset-2"
                     onClick={() => setToggleDropdown(false)}
                   >
-                    Join A Quiz
+                    Pricing
                   </Link>
                   <button
                     type="button"

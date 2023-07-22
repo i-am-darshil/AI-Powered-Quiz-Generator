@@ -7,10 +7,10 @@ const Home = () => {
       <section className="w-full flex-center flex-col my-18">
         <h1 className="head_text text-center">
           <span className="orange_gradient text-center font-light">
-            -Quizopia-
+            -SuperQuizzer-
           </span>
           <br />
-          Discover & Share
+          Discover & Host
           <br />
           <span className="orange_gradient text-center">
             {" "}
@@ -18,9 +18,13 @@ const Home = () => {
           </span>
         </h1>
         <p className="desc text-center font-thin">
-          Stop Wasting Time Manually Creating Quizzes. Quickly convert any text,
-          document, or URL into an online test with ease. Perfect for
-          businesses, teachers, and students.
+          Stop Wasting Time Manually Creating Quizzes. SuperQuizzer makes
+          creating and hosting quizzes{" "}
+          <span className="font-light underline underline-offset-2">
+            super simple and effective
+          </span>
+          . Quickly convert any text, document, or URL into an online test with
+          ease.
         </p>
       </section>
 

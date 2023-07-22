@@ -174,7 +174,7 @@ questionTypeMapping[MCQ_TYPE] = {
       response: [initialQuestionSetForMCQ[0]],
     }
   )}\nMake sure the correct answers only include "A", "B", "C", "D" which are the denote the options.
-\nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified.`,
+\nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is JSON parseable and in the language specified.`,
 };
 questionTypeMapping[BOOLEAN_TYPE] = {
   type: "True or False",
@@ -185,7 +185,7 @@ questionTypeMapping[BOOLEAN_TYPE] = {
       response: [initialQuestionSetForTrueFalse[0]],
     }
   )}
-  \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified`,
+  \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is JSON parseable and in the language specified`,
 };
 questionTypeMapping[SHORT_ANSWER_TYPE] = {
   type: "Short Answer",
@@ -199,7 +199,7 @@ questionTypeMapping[SHORT_ANSWER_TYPE] = {
       response: [initialQuestionSetForShortAnswer[0]],
     }
   )}
-  \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified.`,
+  \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is JSON parseable and in the language specified.`,
 };
 questionTypeMapping[FILL_IN_THE_BLANKS_TYPE] = {
   type: "Fill in the blanks",
@@ -213,7 +213,7 @@ questionTypeMapping[FILL_IN_THE_BLANKS_TYPE] = {
       response: [initialQuestionSetForFillInTheBlanks[0]],
     }
   )}
-  \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified`,
+  \nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is JSON parseable and in the language specified`,
 };
 
 const QUIZZES_TO_GRADE = [

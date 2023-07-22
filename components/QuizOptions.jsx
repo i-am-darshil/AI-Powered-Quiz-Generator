@@ -191,22 +191,34 @@ const QuizOptions = ({
             >
               Max Questions
             </label>
-            <select
-              id="numberOfQuestions"
-              className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              defaultValue="4"
-              name="numberOfQuestions"
-              disabled={!sessionUser || submitting}
-            >
-              <option value={4}>
-                {sessionUser ? "4" : "4 (SignUp For More)"}
-              </option>
-              <option value="8">8</option>
-              <option value="12">12</option>
-              <option value="16">16</option>
-              {/* 20 Questions is giving 503 error sometimes. Model used is default gpt-3.5-turbo */}
-              <option value="20">20</option>
-            </select>
+            {source === "Playground" ? (
+              <select
+                id="numberOfQuestions"
+                className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                defaultValue="4"
+                name="numberOfQuestions"
+                disabled={!sessionUser || submitting}
+              >
+                <option value={4}>{"4"}</option>
+              </select>
+            ) : (
+              <select
+                id="numberOfQuestions"
+                className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                defaultValue="4"
+                name="numberOfQuestions"
+                disabled={!sessionUser || submitting}
+              >
+                <option value={4}>
+                  {sessionUser ? "4" : "4 (SignUp For More)"}
+                </option>
+                <option value="8">8</option>
+                <option value="12">12</option>
+                <option value="16">16</option>
+                {/* 20 Questions is giving 503 error sometimes. Model used is default gpt-3.5-turbo */}
+                <option value="20">20</option>
+              </select>
+            )}
           </div>
         </div>
       </div>
