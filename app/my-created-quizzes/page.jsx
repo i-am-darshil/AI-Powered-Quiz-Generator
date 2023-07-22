@@ -30,7 +30,7 @@ const page = () => {
   }, []);
 
   return (
-    <div className="h-screen">
+    <div className="md:overflow-auto md:h-screen">
       <span
         className={`block text-center text-2xl border-b border-brightRed mx-12 font-light uppercase ${
           isProfileLoading || !user || profileSummary.profileData.length === 0
@@ -63,7 +63,7 @@ const page = () => {
           </h3>
         )}
       </div>
-      <div className="flex w-full flex-col items-center px-4 mx-auto mt-4 space-y-0 md:flex-row md:items-start md:mt-8 ">
+      <div className="flex w-full flex-col items-center px-4 mx-auto mt-4 space-y-0 md:flex-row md:items-start md:mt-8 md:h-screen">
         {!isProfileLoading && user ? (
           <div className="w-full flex flex-col space-y-4 md:h-screen md:overflow-y-scroll lg:px-4 md:w-2/5">
             {profileSummary.profileData.map((quizSummary, i) => {

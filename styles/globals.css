@@ -72,9 +72,9 @@
 }
 
 /* Tailwind Styles */
-
+/* https://stackoverflow.com/questions/31067354/mysterious-white-space-outside-of-html-flow Mysterious white space outside of HTML flow in my-created-quizzes page */
 .app {
-  @apply relative z-10 flex justify-center items-center flex-col max-w-full mx-auto;
+  @apply relative z-10 flex justify-center items-center flex-col max-w-full mx-auto overflow-hidden;
 }
 
 .black_btn {
