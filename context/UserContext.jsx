@@ -26,9 +26,43 @@ const Provider = ({ children }) => {
 
       if (data.session) {
         const sessionUser = data.session.user;
+
         if (sessionUser) {
+          const profileResponses = await supabase
+            .from("profile")
+            .select()
+            .eq("id", sessionUser.id);
+
+          console.log(
+            `Recieved profile data : ${JSON.stringify(profileResponses)}`
+          );
+
+          const profileData = profileResponses.data[0];
+
+          if (!profileData.stripe_customer) {
+            const response = await fetch("/api/create-stripe-customer", {
+              method: "POST",
+              body: JSON.stringify({
+                email: sessionUser.email,
+                name: sessionUser.user_metadata.name,
+                id: sessionUser.id,
+              }),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              console.log(
+                `Recieved response from server : ${JSON.stringify(data)}`
+              );
+              profileData.email = sessionUser.email;
+              profileData.name = sessionUser.user_metadata.name;
+              profileData.stripe_customer = data.stripe_customer;
+            }
+          }
+
           setUser({
             ...sessionUser,
+            ...profileData,
           });
         }
       }
