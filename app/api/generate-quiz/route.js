@@ -55,34 +55,34 @@ export const POST = async (request) => {
     console.log("messageToGPT", messageToGPT);
 
     // ---- START OF ACTUAL GPT CALLS ----
-    // const completion = await openai.createChatCompletion({
-    //   model: "gpt-3.5-turbo",
-    //   messages: [messageToGPT],
-    // });
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [messageToGPT],
+    });
 
-    // console.log("completion", completion.data.choices[0].message);
+    console.log("completion", completion.data.choices[0].message);
 
-    // const questions = JSON.parse(
-    //   completion.data.choices[0].message.content
-    // ).response;
+    const questions = JSON.parse(
+      completion.data.choices[0].message.content
+    ).response;
 
-    // console.log("completion json parse", questions);
+    console.log("completion json parse", questions);
 
-    // const response = {
-    //   questionType: questionType,
-    //   questions: util.shuffleArray(questions),
-    //   difficulty: difficultyMode,
-    //   language: language
-    // };
-    // ---- END OF ACTUAL GPT CALLS ----
-
-    // ---- START OF MOCKED GPT RESPONSE ----
     const response = {
       questionType: questionType,
-      questions: util.shuffleArray(mockQuestions),
+      questions: util.shuffleArray(questions),
       difficulty: difficultyMode,
       language: language,
     };
+    // ---- END OF ACTUAL GPT CALLS ----
+
+    // ---- START OF MOCKED GPT RESPONSE ----
+    // const response = {
+    //   questionType: questionType,
+    //   questions: util.shuffleArray(mockQuestions),
+    //   difficulty: difficultyMode,
+    //   language: language,
+    // };
     // ---- END OF MOCKED GPT RESPONSE ----
 
     return new Response(JSON.stringify(response), { status: 200 });

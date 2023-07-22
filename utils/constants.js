@@ -169,12 +169,12 @@ questionTypeMapping[MCQ_TYPE] = {
   type: "Multiple Choice Question",
   initialQuestionSet: initialQuestionSetForMCQ,
   shape: [initialQuestionSetForMCQ[0], initialQuestionSetForMCQ[1]],
-  promptForTopic: `Generate only "###numberOfQuestions###" "###questionType###" questions with answers. Include wrong answers as well.\n###inputTypePrompt###\nDefine difficulty by "Distractors", "Ambiguity and Misleading Choices", "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt### .\nGenerate the quiz in "###language###" language.\nFormat the response as "JSON (JavaScript Object Notation)" only as an "array of response" in the shape of: ${JSON.stringify(
+  promptForTopic: `Generate only "###numberOfQuestions###" "###questionType###" questions with answers. Include wrong answers as well.\n###inputTypePrompt###\nDefine difficulty by "Distractors", "Ambiguity and Misleading Choices", "Specificity of Answer", "Context and Background" and "Use of Terminology". ###difficultyPrompt### .\nGenerate the quiz in "###language###" language.\nFormat the response as "JSON (JavaScript Object Notation)" only as an "array of response" and only in the shape of: ${JSON.stringify(
     {
       response: [initialQuestionSetForMCQ[0]],
     }
-  )}
-\nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified`,
+  )}\nMake sure the correct answers only include "A", "B", "C", "D" which are the denote the options.
+\nDo NOT include any other information like note, warning, etc. in the response. Make sure the response is in JSON format and in the language specified.`,
 };
 questionTypeMapping[BOOLEAN_TYPE] = {
   type: "True or False",

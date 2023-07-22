@@ -57,7 +57,7 @@ const QuizSummaryCards = ({
                 isSelectedToShowResponse
                   ? "bg-brightRedLight text-white"
                   : "bg-white text-brightRedLight border border-brightRedLight"
-              } hover:cursor-pointer focus:ring-4 focus:outline-none font-medium rounded-lg text-sm m-2 p-2 text-center inline-flex items-center`}
+              } hover:cursor-pointer focus:ring-4 focus:outline-none font-medium rounded-lg hidden text-sm m-2 p-2 text-center md:inline-flex items-center`}
               onClick={() => {
                 setQuizSelected(quizNumber);
               }}

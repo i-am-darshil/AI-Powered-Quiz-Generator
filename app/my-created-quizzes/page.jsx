@@ -31,6 +31,15 @@ const page = () => {
 
   return (
     <div className="h-screen">
+      <span
+        className={`block text-center text-2xl border-b border-brightRed mx-12 font-light uppercase ${
+          isProfileLoading || !user || profileSummary.profileData.length === 0
+            ? "hidden"
+            : ""
+        }`}
+      >
+        Your Quiz Inventory
+      </span>
       <div
         className={`black font-extralight bg-brightRedLight border border-gray-200 px-4 rounded-lg break-normal text-center m-8 ${
           !isProfileLoading && user && profileSummary.profileData.length > 0
@@ -76,8 +85,8 @@ const page = () => {
 
         {!isProfileLoading && user && profileSummary.profileData.length > 0 ? (
           <div className="hidden w-full mb-12 space-y-3 px-4 md:flex flex-col items-start justify-start md:w-3/5 md:overflow-auto md:h-screen black md:rounded-lg break-normal">
-            <div className="relative overflow-scroll md:h-screen md:overflow-y-scroll w-full">
-              <table className="w-full text-sm text-gray-500 dark:text-gray-400 text-center ">
+            <div className="relative overflow-scroll md:h-screen md:overflow-scroll w-full">
+              <table className="w-full text-sm table-auto lg:table-fixed text-gray-500 dark:text-gray-400 text-center ">
                 <thead className="text-xs text-white  border bg-brightRedLight border-brightRed uppercase">
                   <tr>
                     <th scope="col" className="py-3">

@@ -6,7 +6,7 @@ import Provider from "@context/UserContext";
 
 export const metadata = {
   title: "SuperQuizzer",
-  description: "Stop Wasting Time Manually Creating & Grading Quizzes",
+  description: "Quizzing through Artificial Intelligence",
 };
 
 const RootLayout = ({ children }) => {

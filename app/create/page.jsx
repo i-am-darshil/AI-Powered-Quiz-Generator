@@ -29,7 +29,7 @@ const page = () => {
   });
 
   const [viewPreferences, setViewPreferences] = useState({
-    previewAnswers: false,
+    previewAnswers: true,
   });
 
   const getQuizGuestions = async (e) => {
@@ -159,6 +159,7 @@ const page = () => {
                 questionNumber={i}
                 submitting={submitting}
                 showAnswers={viewPreferences.previewAnswers}
+                isEditable={true}
               />
             );
           })}
@@ -174,6 +175,7 @@ const page = () => {
               <input
                 id="showAnswers"
                 type="checkbox"
+                checked={viewPreferences.previewAnswers}
                 value=""
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 name="showAnswers"
@@ -267,6 +269,10 @@ const page = () => {
                   {quizLinkConfig.quizLink}
                 </a>
               </h4>
+              <p className="font-bold text-xs break-normal mt-2">
+                Please make sure to generate the link after your quiz is
+                finalized
+              </p>
               <p className="font-extralight text-xs break-normal mt-2">
                 Share & Spread Quizopia
               </p>
