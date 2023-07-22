@@ -8,7 +8,7 @@ const PricingCard = ({
 }) => {
   return (
     <>
-      <div className="w-full px-4 md:w-1/2 lg:w-1/2">
+      <div className="w-full px-4 md:w-1/2 lg:w-1/2 text-center">
         <div className="relative z-10 px-8 py-10 mb-10 overflow-hidden bg-white border border-brightRed rounded-xl border-opacity-20 shadow-pricing sm:p-12 lg:py-10 lg:px-6 xl:p-12">
           <span className="block mb-4 text-lg font-semibold text-primary">
             {type}
@@ -19,7 +19,7 @@ const PricingCard = ({
               / {subscription}
             </span>
           </h2>
-          <h3 className="mb-8 border-b border-[#ec5d10] pb-8 text-base text-body-color">
+          <h3 className="mb-4 border-b border-[#ec5d10] pb-4 text-base text-body-color">
             {description}
           </h3>
 
@@ -28,12 +28,15 @@ const PricingCard = ({
               {children}
             </div>
           </ul>
-          <a
-            href="/#"
-            className="block w-full rounded-md border  border-brightRed bg-transparent p-4 text-center text-base font-semibold text-primary transition hover:border-primary hover:bg-primary hover:text-brightRed"
+          <button
+            className="block mx-auto rounded-md border hover:text-white hover:bg-brightRedLight px-4 py-2 text-center text-base font-semibold text-primary transition text-brightRedLight hover:bg-primary bg-white border-brightRed"
+            onClick={() => {
+              // processSubscription(type, plan.id);
+            }}
+            disabled
           >
             {buttonText}
-          </a>
+          </button>
           <div>
             <span className="absolute right-0 top-7 z-[-1]">
               <svg

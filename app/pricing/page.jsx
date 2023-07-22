@@ -1,8 +1,23 @@
-import PricingCard from "@components/PricingCard";
+"use client";
 
-const page = () => {
+import { useState } from "react";
+
+import PricingCard from "@components/PricingCard";
+import { useUser } from "@context/UserContext";
+
+const page = ({ plans }) => {
+  const { user } = useUser();
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
+
+  const processSubscription = (planId) => async () => {
+    const { data } = await axios.get(`/api/subscription/pro`);
+    // const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+    // await stripe.redirectToCheckout({ sessionId: data.id });
+  };
+
   return (
     <section className="relative z-20 overflow-hidden font-light pt-8 pb-8 w-full flex justify-center">
+      {console.log("plans", JSON.stringify(plans))}
       <div className="container">
         <div className="w-full px-4">
           <div className="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20">
@@ -17,14 +32,15 @@ const page = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center -mx-4 w-full">
-          <div className="flex flex-wrap md:mx-40 w-full">
+        <div className="flex flex-wrap justify-center w-full">
+          <div className="flex flex-wrap lg:mx-40 w-full">
             <PricingCard
               type="Free"
               price="$0"
               subscription="month"
-              description=""
+              description="Starter Pack"
               buttonText="Default"
+              processSubscription={processSubscription}
             >
               <p className="mb-1 text-base leading-loose text-body-color">
                 1 Quiz Creation
@@ -46,8 +62,9 @@ const page = () => {
               type="Pro"
               price="$9.99"
               subscription="month"
-              description=""
+              description="Unlimited Pack"
               buttonText="Choose Pro"
+              processSubscription={processSubscription}
             >
               <p className="mb-1 text-base leading-loose text-body-color">
                 Unlimited Quiz Creation
